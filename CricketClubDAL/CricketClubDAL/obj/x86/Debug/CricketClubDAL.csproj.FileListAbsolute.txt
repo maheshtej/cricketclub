@@ -1,0 +1,7 @@
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDAL\CricketClubDAL\bin\x86\Debug\CricketClubDAL.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDAL\CricketClubDAL\bin\x86\Debug\CricketClubDAL.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDAL\CricketClubDAL\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDAL\CricketClubDAL\obj\x86\Debug\CricketClubDAL.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDAL\CricketClubDAL\obj\x86\Debug\CricketClubDAL.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDAL\CricketClubDAL\bin\x86\Debug\CricketClubDomain.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDAL\CricketClubDAL\bin\x86\Debug\CricketClubDomain.pdb

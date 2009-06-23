@@ -1,0 +1,18 @@
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubMiddle.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubMiddle.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDAL.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDAL.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\obj\x86\Debug\CricketClubMiddle.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\obj\x86\Debug\CricketClubMiddle.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDomain.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDomain.pdb
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubMiddle.dll
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubMiddle.pdb
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDAL.dll
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDomain.dll
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDomain.pdb
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\bin\x86\Debug\CricketClubDAL.pdb
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\obj\x86\Debug\CricketClubMiddle.dll
+C:\Visual Studio Express Projects\CricketClubMiddle\CricketClubMiddle\obj\x86\Debug\CricketClubMiddle.pdb

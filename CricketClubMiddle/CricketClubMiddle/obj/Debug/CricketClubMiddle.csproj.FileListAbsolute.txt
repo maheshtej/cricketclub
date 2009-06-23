@@ -1,0 +1,7 @@
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\Debug\CricketClubMiddle.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\Debug\CricketClubMiddle.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\obj\Debug\CricketClubMiddle.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\obj\Debug\CricketClubMiddle.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\Debug\CricketClubDAL.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubMiddle\CricketClubMiddle\bin\Debug\CricketClubDAL.pdb
