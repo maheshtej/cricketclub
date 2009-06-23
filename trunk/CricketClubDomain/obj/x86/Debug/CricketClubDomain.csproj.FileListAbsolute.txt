@@ -1,0 +1,5 @@
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDomain\bin\x86\Debug\CricketClubDomain.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDomain\bin\x86\Debug\CricketClubDomain.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDomain\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDomain\obj\x86\Debug\CricketClubDomain.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CricketClubDomain\obj\x86\Debug\CricketClubDomain.pdb
