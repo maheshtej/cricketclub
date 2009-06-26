@@ -22,3 +22,6 @@ C:\Visual Studio Express Projects\CricketClubMiddle\TestHarness\bin\x86\Debug\Cr
 C:\Visual Studio Express Projects\CricketClubMiddle\TestHarness\bin\x86\Debug\CricketClubDAL.pdb
 C:\Visual Studio Express Projects\CricketClubMiddle\TestHarness\bin\x86\Debug\CricketClubDomain.pdb
 C:\Visual Studio Express Projects\CricketClubMiddle\TestHarness\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\ponting\Desktop\VCCLibs\CricketClubMiddle\TestHarness\bin\x86\Debug\TestHarness.exe.config
+C:\Documents and Settings\ponting\Desktop\VCCLibs\CricketClubMiddle\TestHarness\obj\x86\Debug\TestHarness.exe
+C:\Documents and Settings\ponting\Desktop\VCCLibs\CricketClubMiddle\TestHarness\obj\x86\Debug\TestHarness.pdb
