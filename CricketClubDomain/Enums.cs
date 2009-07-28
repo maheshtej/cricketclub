@@ -31,4 +31,14 @@ namespace CricketClubDomain
     {
         Us, Them
     };
+
+    public enum CreditDebit
+    {
+        Credit, Debit
+    };
+
+    public enum PaymentType
+    {
+        MatchFee, Social, DigitalBanking, Cheque, Cash, Other
+    };
 }
