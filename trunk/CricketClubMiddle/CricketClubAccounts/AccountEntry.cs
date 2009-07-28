@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CricketClubDomain;
 
 namespace CricketClubAccounts
 {
@@ -18,6 +19,25 @@ namespace CricketClubAccounts
             get;
             set;
         }
+
+
+        /// <summary>
+        /// Credit - Cash paid to the club
+        /// Debit - monies owed to the club - match fees etc
+        /// </summary>
+        public CreditDebit CreditOrDebit
+        {
+            get;
+            set;
+        }
+
+        public int MatchID
+        {
+            get;
+            set;
+        }
+
+        
         
         public AccountEntry() {
 
