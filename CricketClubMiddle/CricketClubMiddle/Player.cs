@@ -360,7 +360,7 @@ namespace CricketClubMiddle
             try
             {
                 var x = (from a in _battingStatsData.Where(a => a.MatchID == MatchID) select a.BattingAt).Average();
-                return (int)Math.Round(x, 0);
+                return (int)Math.Round(x, 0)+1;
             }
             catch
             {
@@ -372,7 +372,7 @@ namespace CricketClubMiddle
             try
             {
                 var x = (from a in FilterData(_battingStatsData, startDate, endDate, matchType) select a.BattingAt).Average();
-                return (int)Math.Round(x, 0);
+                return (int)Math.Round(x, 0)+1;
             }
             catch
             {
