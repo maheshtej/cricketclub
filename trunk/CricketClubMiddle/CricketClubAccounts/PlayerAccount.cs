@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using CricketClubMiddle;
 using CricketClubDAL;
+using CricketClubDomain;
 
 namespace CricketClubAccounts
 {
@@ -18,9 +19,9 @@ namespace CricketClubAccounts
 
         public List<AccountEntry> GetStatement()
         {
-            DAO myDAO = new DAO();
+            var entries = from a in AccountEntry.GetAll() where a.PlayerID == PlayerID select a; 
             
-            return new List<AccountEntry>();
+            return entries.ToList();
         }
 
         public double GetBalance()
@@ -29,15 +30,28 @@ namespace CricketClubAccounts
 
             foreach (AccountEntry entry in this.GetStatement())
             {
-                balance = balance + entry.Amount;
+                if (entry.CreditOrDebit == CreditDebit.Credit)
+                {
+                    balance = balance + entry.Amount;
+                }
+                else
+                {
+                    balance = balance - entry.Amount;
+                }
             }
 
             return balance;
         }
 
-        public void AddEntry(double amount, string description)
+        public int PlayerID
         {
-
+            get { return _player.ID; }
         }
+
+        public void AddPayment(double amount, string description, Match Match, PaymentStatus Status, PaymentType Type, CreditDebit CreditOrDebit)
+        {
+            AccountEntry.Create(
+        }
+
     }
 }
