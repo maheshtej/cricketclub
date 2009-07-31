@@ -51,6 +51,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -64,9 +65,11 @@
     <Compile Include="Chat.cs" />
     <Compile Include="ChatItem.cs" />
     <Compile Include="InternalCache.cs" />
+    <Compile Include="Interactive\MatchPhoto.cs" />
     <Compile Include="MatchReport.cs" />
     <Compile Include="News.cs" />
     <Compile Include="NewsItem.cs" />
+    <Compile Include="Interactive\PhotoComment.cs" />
     <Compile Include="Stats\BowlingStats.cs" />
     <Compile Include="Stats\BowlingStatsLine.cs" />
     <Compile Include="Stats\Extras.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="Stats\BattingCard.cs" />
     <Compile Include="Stats\BattingCardLine.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="Interactive\User.cs" />
     <Compile Include="Venue.cs" />
   </ItemGroup>
   <ItemGroup>

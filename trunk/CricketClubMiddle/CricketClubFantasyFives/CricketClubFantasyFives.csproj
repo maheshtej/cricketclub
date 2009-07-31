@@ -49,7 +49,6 @@
     <Compile Include="FantasyPlayer.cs" />
     <Compile Include="FantasyTeam.cs" />
     <Compile Include="ScoringModel.cs" />
-    <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
