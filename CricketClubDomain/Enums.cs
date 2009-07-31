@@ -41,4 +41,9 @@ namespace CricketClubDomain
     {
         MatchFee, Social, DigitalBanking, Cheque, Cash, Other
     };
+
+    public enum PaymentStatus
+    {
+        Confirmed, Unconfirmed
+    };
 }

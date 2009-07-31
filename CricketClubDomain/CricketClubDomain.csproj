@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountEntryData.cs" />
     <Compile Include="BowlingStatsEntryData.cs" />
     <Compile Include="ChatData.cs" />
     <Compile Include="Enums.cs" />

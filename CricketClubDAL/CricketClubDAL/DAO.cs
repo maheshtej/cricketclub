@@ -1010,6 +1010,57 @@ namespace CricketClubDAL
 
         #endregion
 
+        #region Accounts
+
+        public List<AccountEntryData> GetAllAccountData()
+        {
+            List<AccountEntryData> teams = new List<AccountEntryData>();
+            string sql = "select * from account";
+            DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
+            foreach (DataRow data in ds.Tables[0].Rows)
+            {
+                AccountEntryData entry = new AccountEntryData();
+                //entry.ID = (int)data["team_id"];
+                //entry.Name = data["team"].ToString();
+                //teams.Add(entry);
+            }
+
+            return teams;
+        }
+
+        public void UpdateAccountEntry(AccountEntryData Data)
+        {
+            //string sql = "update teams set {0} = {1} where team_id = " + Data.ID;
+            //int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "team", "'" + Data.Name + "'" }));
+        }
+
+        public int CreateNewAccountEntry(int PlayerID, string Description, double Amount, int CreditDebit, int Type, int MatchID, int Status)
+        {
+            //DataRow dr = scorebook.ExecuteSQLAndReturnFirstRow("select * from teams where team ='" + TeamName + "'");
+            //if (dr != null)
+            //{
+            //    return (int)dr["team_id"];
+            //}
+            //else
+            //{
+            //    int NewTeamID = (int)scorebook.ExecuteSQLAndReturnSingleResult("select max(team_id) from teams") + 1;
+            //    int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into teams(team_id, team) select " + NewTeamID +
+            //        ", '" + TeamName + "'");
+            //    if (rowsAffected == 1)
+            //    {
+            //        return NewTeamID;
+            //    }
+            //    else
+            //    {
+            //        return 0;
+            //    }
+            //}
+            return 0;
+        }
+        
+
+        #endregion
+
         private static string SafeForSQL(string s)
         {
             if (!string.IsNullOrEmpty(s))
@@ -1024,6 +1075,8 @@ namespace CricketClubDAL
 
 
 
-       
+
+
+        
     }
 }
