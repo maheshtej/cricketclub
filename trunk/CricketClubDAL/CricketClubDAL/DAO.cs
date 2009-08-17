@@ -1075,6 +1075,190 @@ namespace CricketClubDAL
 
         #endregion
 
+        #region Users
+
+        public List<UserData> GetAllUsers()
+        {
+            string sql = "select * from users";
+            DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
+            List<UserData> users = new List<UserData>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                UserData newUser = new UserData();
+                newUser.ID = (int)dr["user_id"];
+                newUser.Name = dr["username"].ToString();
+                newUser.EmailAddress = dr["email_address"].ToString();
+                newUser.Password = dr["password"].ToString();
+                newUser.DisplayName = dr["display_name"].ToString();
+
+                users.Add(newUser);
+            }
+            return users;
+        }
+
+        public int CreateNewUser(string name, string emailaddress, string password, string displayname)
+        {
+            int NewUserID = 1;
+            try
+            {
+                NewUserID = (int)scorebook.ExecuteSQLAndReturnSingleResult("select max(user_id) from users") + 1;
+            }
+            catch { }
+            int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into users([user_id], [username], [password], [email_address], [display_name]) select " + NewUserID + ",'" + name + "', '" + password + "', '" + emailaddress + "', '" + displayname + "'");
+            if (rowsAffected == 1)
+            {
+                return NewUserID;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public void UpdateUser(UserData userData)
+        {
+            string sql = "update users set {0} = {1} where user_id = " + userData.ID;
+            int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "username", "'" + userData.Name + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "password", "'" + userData.Password + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "email_address", "'" + userData.EmailAddress + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "display_name", "'" + userData.DisplayName + "'" }));
+
+        }
+
+        #endregion
+
+        #region Photos
+
+        public List<PhotoData> GetAllPhotos()
+        {
+            string sql = "select * from Match_Photos";
+            DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
+            List<PhotoData> photos = new List<PhotoData>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                PhotoData newPhoto = new PhotoData();
+                newPhoto.ID = (int)dr["ImageID"];
+                newPhoto.AuthorID = (int)dr["Author"];
+                newPhoto.FileName = dr["ImageName"].ToString();
+                newPhoto.Title = dr["ImageTitle"].ToString();
+                try
+                {
+                    newPhoto.UploadDate = (DateTime)dr["dob"];
+                }
+                catch
+                {
+                    newPhoto.UploadDate = new DateTime(1, 1, 1);
+                }
+                newPhoto.MatchID = (int)dr["Match_ID"];
+                photos.Add(newPhoto);
+            }
+            return photos;
+        }
+
+        public int AddOrUpdatePhoto(PhotoData photo)
+        {
+            if (photo.ID != 0)
+            {
+                string sql = "delete from [Match_Photos] where Image_ID = " + photo.ID.ToString();
+                int tmp = scorebook.ExecuteInsertOrUpdate(sql);
+            }
+            int NewPhotoID = 1;
+            try
+            {
+                NewPhotoID = (int)scorebook.ExecuteSQLAndReturnSingleResult("select max([ImageID]) as [ID] from [Match_Photos]") + 1;
+            }
+            catch (Exception e)
+            {
+                //
+            }
+            int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into [Match_Photos](imageID, ImageNAme, ImageTitle, Match_ID, [author], uploadDate) select " + NewPhotoID +
+                ", '" + photo.FileName + "', '" + photo.Title + "', " + photo.MatchID + "," + photo.AuthorID + ", #" + photo.UploadDate.ToString() + "#");
+            if (rowsAffected == 1)
+            {
+                return NewPhotoID;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+
+        public List<PhotoCommentData> GetAllPhotoComments()
+        {
+            string sql = "select * from Match_Image_Comments";
+            DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
+            List<PhotoCommentData> comments = new List<PhotoCommentData>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                PhotoCommentData newComment = new PhotoCommentData();
+                newComment.ID = (int)dr["CommentID"];
+                newComment.AuthorID = (int)dr["UserID"];
+                newComment.PhotoID = (int)dr["ImageID"];
+                try
+                {
+                    newComment.CommentTime = (DateTime)dr["CommentTime"];
+                }
+                catch
+                {
+                    newComment.CommentTime = new DateTime(1, 1, 1);
+                }
+
+                newComment.Comment = dr["Comment1"].ToString() +
+                    dr["Comment2"].ToString() +
+                    dr["Comment3"].ToString() +
+                    dr["Comment4"].ToString() +
+                    dr["Comment5"].ToString();
+                comments.Add(newComment);
+            }
+            return comments;
+        }
+
+        public int SubmitPhotoComment(PhotoCommentData data)
+        {
+            string comment = data.Comment;
+            List<string> commentChunks = new List<string>();
+            //Break into bits of 250 - note, not 255 as the replacement of ' for "''" might add extra chars
+            while (comment.Length > 250)
+            {
+                commentChunks.Add(comment.Substring(0, 250));
+                comment = comment.Substring(250);
+            }
+            commentChunks.Add(comment);
+
+            string sql = "insert into Match_Image_Comments(ImageID, UserID, CommentTime) select "
+                + data.PhotoID + ", "
+                + data.AuthorID + ", #"
+                + data.CommentTime.ToString("U") + "#";
+
+            int temp = scorebook.ExecuteInsertOrUpdate(sql);
+
+            sql = "select max(CommentID) as comment_id from Match_Image_Comments where UserID = " + data.AuthorID + " and CommentTime=#" + data.CommentTime.ToString("U") + "#";
+            int ChatID;
+            try
+            {
+                ChatID = (int)scorebook.ExecuteSQLAndReturnSingleResult(sql);
+            }
+            catch (NullReferenceException e)
+            {
+                ChatID = 0;
+            }
+            int counter = 0;
+            foreach (string chunk in commentChunks)
+            {
+                counter++;
+                if (counter <= 5 && counter > 0)
+                {
+                    sql = "update Match_Image_Comments set comment" + counter.ToString() + "='" + SafeForSQL(chunk) + "' where CommentID = " + ChatID;
+                    temp = scorebook.ExecuteInsertOrUpdate(sql);
+                }
+
+            }
+            return ChatID;
+        }
+
+        #endregion
+
         private static string SafeForSQL(string s)
         {
             if (!string.IsNullOrEmpty(s))
