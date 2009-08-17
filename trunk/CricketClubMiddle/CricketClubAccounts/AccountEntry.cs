@@ -7,7 +7,7 @@ using CricketClubDAL;
 
 namespace CricketClubAccounts
 {
-    public class AccountEntry
+    internal class AccountEntry
     {
         private AccountEntryData _data;
 
@@ -23,7 +23,7 @@ namespace CricketClubAccounts
         public double Amount
         {
             get { return _data.Amount; }
-            set { _data.Amount = value; }
+            set { if (value >= 0) { _data.Amount = value; } else { _data.Amount = -1 * value; } }
         }
 
         public string Description
@@ -62,8 +62,8 @@ namespace CricketClubAccounts
 
         public PaymentStatus Status
         {
-            get { return (PaymentStatus)_data.status; }
-            set { _data.status = (int)value; }
+            get { return (PaymentStatus)_data.Status; }
+            set { _data.Status = (int)value; }
         }
         
         
@@ -84,10 +84,10 @@ namespace CricketClubAccounts
             }
         }
 
-        protected static AccountEntry Create(PlayerAccount account, double amount, string description, DateTime Date, CreditDebit CreditOrDebit, PaymentType Type, int MatchID, PaymentStatus Status)
+        internal static AccountEntry Create(PlayerAccount account, double amount, string description, DateTime Date, CreditDebit CreditOrDebit, PaymentType Type, int MatchID, PaymentStatus Status)
         {
             DAO myDao = new DAO();
-            int newID = myDao.CreateNewAccountEntry(account.PlayerID, description, amount,(int)CreditOrDebit, (int)Type, MatchID, (int)Status );
+            int newID = myDao.CreateNewAccountEntry(account.PlayerID, description, amount,(int)CreditOrDebit, (int)Type, MatchID, (int)Status, Date);
             ClearCache();
             return new AccountEntry(newID);
         }
