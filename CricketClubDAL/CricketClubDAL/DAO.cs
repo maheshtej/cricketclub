@@ -1014,18 +1014,33 @@ namespace CricketClubDAL
 
         public List<AccountEntryData> GetAllAccountData()
         {
-            List<AccountEntryData> teams = new List<AccountEntryData>();
+            List<AccountEntryData> accounts = new List<AccountEntryData>();
             string sql = "select * from account";
             DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
             foreach (DataRow data in ds.Tables[0].Rows)
             {
                 AccountEntryData entry = new AccountEntryData();
-                //entry.ID = (int)data["team_id"];
-                //entry.Name = data["team"].ToString();
-                //teams.Add(entry);
+                entry.ID = (int)data["id"];
+                entry.Amount = (double)data["amount"];
+                entry.CreditOrDebit = (int)data["credit_debit"];
+                try
+                {
+                    entry.Date = (DateTime)data["transaction_date"];
+                }
+                catch
+                {
+                    entry.Date = new DateTime(1970, 1, 1);
+                }
+                entry.Description = data["description"].ToString();
+                entry.MatchID = (int)data["match_id"];
+                entry.PlayerID = (int)data["player_id"];
+                entry.Status = (int)data["status"];
+                entry.Type = (int)data["payment_type"];
+
+                accounts.Add(entry);
             }
 
-            return teams;
+            return accounts;
         }
 
         public void UpdateAccountEntry(AccountEntryData Data)
@@ -1034,28 +1049,27 @@ namespace CricketClubDAL
             //int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "team", "'" + Data.Name + "'" }));
         }
 
-        public int CreateNewAccountEntry(int PlayerID, string Description, double Amount, int CreditDebit, int Type, int MatchID, int Status)
+        public int CreateNewAccountEntry(int PlayerID, string Description, double Amount, int CreditDebit, int Type, int MatchID, int Status, DateTime TransactionDate)
         {
-            //DataRow dr = scorebook.ExecuteSQLAndReturnFirstRow("select * from teams where team ='" + TeamName + "'");
-            //if (dr != null)
-            //{
-            //    return (int)dr["team_id"];
-            //}
-            //else
-            //{
-            //    int NewTeamID = (int)scorebook.ExecuteSQLAndReturnSingleResult("select max(team_id) from teams") + 1;
-            //    int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into teams(team_id, team) select " + NewTeamID +
-            //        ", '" + TeamName + "'");
-            //    if (rowsAffected == 1)
-            //    {
-            //        return NewTeamID;
-            //    }
-            //    else
-            //    {
-            //        return 0;
-            //    }
-            //}
-            return 0;
+            int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into accounts(player_id, descripton, amount, credit_debit, payment_type, match_id, status, transaction_date) select "
+                + PlayerID + ", '"
+                + Description + "' , "
+                + Amount + ", "
+                + CreditDebit + ", "
+                + Type + ", "
+                + MatchID + ", "
+                + Status + ", "
+                + TransactionDate.ToLongDateString()
+                );
+            if (rowsAffected == 1)
+            {
+                int NewAccEntryID = (int)scorebook.ExecuteSQLAndReturnSingleResult("select max([id]) from accounts where player_id = " + PlayerID);
+                return NewAccEntryID;
+            }
+            else
+            {
+                return 0;
+            }
         }
         
 
