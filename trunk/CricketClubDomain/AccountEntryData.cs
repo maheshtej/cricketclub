@@ -50,7 +50,13 @@ namespace CricketClubDomain
             set;
         }
 
-        public int status
+        public int Status
+        {
+            get;
+            set;
+        }
+
+        public int Type
         {
             get;
             set;

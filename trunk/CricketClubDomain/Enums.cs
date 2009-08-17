@@ -39,7 +39,7 @@ namespace CricketClubDomain
 
     public enum PaymentType
     {
-        MatchFee, Social, DigitalBanking, Cheque, Cash, Other
+        MatchFee, Nets, Social, DigitalBanking, Cheque, Cash, Other
     };
 
     public enum PaymentStatus
