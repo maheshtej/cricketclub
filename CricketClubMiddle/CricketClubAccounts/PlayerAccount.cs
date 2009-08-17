@@ -48,9 +48,9 @@ namespace CricketClubAccounts
             get { return _player.ID; }
         }
 
-        public void AddPayment(double amount, string description, Match Match, PaymentStatus Status, PaymentType Type, CreditDebit CreditOrDebit)
+        public void AddPayment(double amount, string description, DateTime date, Match Match, PaymentStatus Status, PaymentType Type, CreditDebit CreditOrDebit)
         {
-            AccountEntry.Create(
+            AccountEntry.Create(this, amount, description, date, CreditOrDebit, Type, Match.ID, Status);
         }
 
     }
