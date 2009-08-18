@@ -78,7 +78,7 @@ namespace CricketClubDomain
             set;
         }
 
-        public int UserID
+        public string EmailAddress
         {
             get;
             set;
