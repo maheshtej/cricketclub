@@ -78,6 +78,12 @@ namespace CricketClubDomain
             set;
         }
 
+        public int UserID
+        {
+            get;
+            set;
+        }
+
 
     }
 }
