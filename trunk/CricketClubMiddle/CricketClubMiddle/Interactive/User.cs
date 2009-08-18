@@ -5,6 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 using CricketClubDomain;
 using CricketClubDAL;
+using CricketClubMiddle.Security;
 
 namespace CricketClubMiddle.Interactive
 {
@@ -120,6 +121,35 @@ namespace CricketClubMiddle.Interactive
         {
             get;
             private set;
+        }
+
+        private int PermissionMask
+        {
+            get {
+                return _data.Permissions;   
+            }
+            set { _data.Permissions = value; }
+        }
+
+        public void GrantPermission(int permission)
+        {
+            if (!this.HasPermission(permission))
+            {
+                this.PermissionMask = (this.PermissionMask | permission);
+                this.Save();
+            }
+        }
+
+        public bool HasPermission(int permission)
+        {
+            if ((permission & PermissionMask) == permission)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         
