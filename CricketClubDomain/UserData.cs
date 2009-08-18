@@ -38,5 +38,11 @@ namespace CricketClubDomain
             get;
             set;
         }
+
+        public int Permissions
+        {
+            get;
+            set;
+        }
     }
 }

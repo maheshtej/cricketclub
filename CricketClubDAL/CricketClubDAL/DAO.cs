@@ -1136,6 +1136,7 @@ namespace CricketClubDAL
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "password", "'" + userData.Password + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "email_address", "'" + userData.EmailAddress + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "display_name", "'" + userData.DisplayName + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "permissions",  userData.Permissions + "" }));
 
         }
 
