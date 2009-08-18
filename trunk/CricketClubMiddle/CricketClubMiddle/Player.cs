@@ -78,15 +78,15 @@ namespace CricketClubMiddle
 
         }
 
-        public int UserID
+        public string EmailAddress
         {
             get
             {
-                return PlayerData.UserID;
+                return PlayerData.EmailAddress;
             }
             set
             {
-                PlayerData.UserID = value;
+                PlayerData.EmailAddress = value;
             }
         }
 
@@ -980,14 +980,14 @@ namespace CricketClubMiddle
 
         public bool AssociateWithUser(User user)
         {
-            var alreadyAssigned = Player.GetAll().Where(a=> a.UserID == user.ID).Any();
+            var alreadyAssigned = Player.GetAll().Where(a=> a.EmailAddress == user.EmailAddress).Any();
             if (alreadyAssigned)
             {
                 return false;
             }
             else
             {
-                this.UserID = user.ID;
+                this.EmailAddress = user.EmailAddress;
                 this.Save();
                 return true;
             }
