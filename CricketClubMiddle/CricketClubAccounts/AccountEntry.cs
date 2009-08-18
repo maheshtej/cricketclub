@@ -7,7 +7,7 @@ using CricketClubDAL;
 
 namespace CricketClubAccounts
 {
-    internal class AccountEntry
+    public class AccountEntry
     {
         private AccountEntryData _data;
 

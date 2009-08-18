@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using CricketClubDAL;
 using CricketClubDomain;
+using CricketClubMiddle.Interactive;
 
 namespace CricketClubMiddle
 {
@@ -75,6 +76,18 @@ namespace CricketClubMiddle
                 return PlayerData.ID;
             }
 
+        }
+
+        public int UserID
+        {
+            get
+            {
+                return PlayerData.UserID;
+            }
+            set
+            {
+                PlayerData.UserID = value;
+            }
         }
 
         public string Name
@@ -963,6 +976,21 @@ namespace CricketClubMiddle
         public override string ToString()
         {
             return this.Name;
+        }
+
+        public bool AssociateWithUser(User user)
+        {
+            var alreadyAssigned = Player.GetAll().Where(a=> a.UserID == user.ID).Any();
+            if (alreadyAssigned)
+            {
+                return false;
+            }
+            else
+            {
+                this.UserID = user.ID;
+                this.Save();
+                return true;
+            }
         }
 
     }

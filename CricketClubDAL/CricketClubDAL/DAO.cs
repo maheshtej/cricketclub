@@ -21,6 +21,7 @@ namespace CricketClubDAL
             DataRow dr =  scorebook.ExecuteSQLAndReturnFirstRow(sql);
             PlayerData newPlayer = new PlayerData();
             newPlayer.ID = (int)dr["player_id"];
+            newPlayer.UserID = (int)dr["user_id"];
             newPlayer.Name = dr["player_name"].ToString();
             newPlayer.FullName = dr["full_name"].ToString();
             newPlayer.BattingStyle = dr["batting_style"].ToString();
@@ -59,6 +60,7 @@ namespace CricketClubDAL
             {
                 PlayerData newPlayer = new PlayerData();
                 newPlayer.ID = (int)dr["player_id"];
+                newPlayer.UserID = (int)dr["user_id"];
                 newPlayer.Name = dr["player_name"].ToString();
                 newPlayer.FullName = dr["full_name"].ToString();
                 newPlayer.BattingStyle = dr["batting_style"].ToString();
@@ -115,6 +117,8 @@ namespace CricketClubDAL
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "education", "'" + playerData.Education + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "batting_style", "'" + playerData.BattingStyle + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "bowling_style", "'" + playerData.BowlingStyle + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "user_id", playerData.UserID + "" }));
+
         }
 
         public List<BattingCardLineData> GetPlayerBattingStatsData(int PlayerID)
@@ -1015,17 +1019,17 @@ namespace CricketClubDAL
         public List<AccountEntryData> GetAllAccountData()
         {
             List<AccountEntryData> accounts = new List<AccountEntryData>();
-            string sql = "select * from account";
+            string sql = "select * from accounts";
             DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
             foreach (DataRow data in ds.Tables[0].Rows)
             {
                 AccountEntryData entry = new AccountEntryData();
                 entry.ID = (int)data["id"];
                 entry.Amount = (double)data["amount"];
-                entry.CreditOrDebit = (int)data["credit_debit"];
+                entry.CreditOrDebit = (int)data["debit_credit"];
                 try
                 {
-                    entry.Date = (DateTime)data["transaction_date"];
+                    entry.Date = (DateTime)data["transaction_time"];
                 }
                 catch
                 {
@@ -1045,21 +1049,31 @@ namespace CricketClubDAL
 
         public void UpdateAccountEntry(AccountEntryData Data)
         {
-            //string sql = "update teams set {0} = {1} where team_id = " + Data.ID;
-            //int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "team", "'" + Data.Name + "'" }));
+            string sql = "update accounts set {0} = {1} where id = " + Data.ID;
+            int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "amount", Data.Amount.ToString() }));
+             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "debit_credit", "'" + (int)Data.CreditOrDebit + "'" }));
+             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "transaction_time", "'" + Data.Date + "'" }));
+             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "description", "'" + Data.Description + "'" }));
+             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "match_id",  Data.MatchID.ToString()  }));
+             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "player_id",  Data.PlayerID.ToString()  }));
+             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "status", (int)Data.Status + "" }));
+             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "payment_type", (int)Data.Type + "" }));
+
+
+
         }
 
         public int CreateNewAccountEntry(int PlayerID, string Description, double Amount, int CreditDebit, int Type, int MatchID, int Status, DateTime TransactionDate)
         {
-            int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into accounts(player_id, descripton, amount, credit_debit, payment_type, match_id, status, transaction_date) select "
+            int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into accounts(player_id, description, amount, debit_credit, payment_type, match_id, status, transaction_time) select "
                 + PlayerID + ", '"
                 + Description + "' , "
                 + Amount + ", "
                 + CreditDebit + ", "
                 + Type + ", "
                 + MatchID + ", "
-                + Status + ", "
-                + TransactionDate.ToLongDateString()
+                + Status + ", '"
+                + TransactionDate.ToLongDateString() + "'"
                 );
             if (rowsAffected == 1)
             {
