@@ -50,7 +50,14 @@ namespace CricketClubAccounts
 
         public void AddPayment(double amount, string description, DateTime date, Match Match, PaymentStatus Status, PaymentType Type, CreditDebit CreditOrDebit)
         {
-            AccountEntry.Create(this, amount, description, date, CreditOrDebit, Type, Match.ID, Status);
+            if (null != Match)
+            {
+                AccountEntry.Create(this, amount, description, date, CreditOrDebit, Type, Match.ID, Status);
+            }
+            else
+            {
+                AccountEntry.Create(this, amount, description, date, CreditOrDebit, Type, 0, Status);
+            }
         }
 
     }

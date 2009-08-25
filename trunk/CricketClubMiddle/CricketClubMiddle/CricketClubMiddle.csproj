@@ -52,6 +52,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -70,6 +71,7 @@
     <Compile Include="News.cs" />
     <Compile Include="NewsItem.cs" />
     <Compile Include="Interactive\PhotoComment.cs" />
+    <Compile Include="Security\Permissions.cs" />
     <Compile Include="Stats\BowlingStats.cs" />
     <Compile Include="Stats\BowlingStatsLine.cs" />
     <Compile Include="Stats\Extras.cs" />
@@ -84,6 +86,9 @@
     <Compile Include="Team.cs" />
     <Compile Include="Interactive\User.cs" />
     <Compile Include="Venue.cs" />
+    <Compile Include="Web\SecurePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CricketClubDAL\CricketClubDAL\CricketClubDAL.csproj">

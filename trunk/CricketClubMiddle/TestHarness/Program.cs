@@ -6,6 +6,7 @@ using CricketClubMiddle;
 using CricketClubDomain;
 using CricketClubMiddle.Stats;
 using CricketClubMiddle.Interactive;
+using CricketClubAccounts;
 
 
 namespace TestHarness
@@ -38,13 +39,18 @@ namespace TestHarness
             //test12.Password = "testpassword";
             //test12.Save();
 
-            User u = User.CreateNew("test", "test", "test.test@test,com", "Graham");
+            //User u = User.CreateNew("test", "test", "test.test@test,com", "Graham");
 
-            MatchPhoto p = MatchPhoto.AddNew("test.jpg", "A title", 113, u);
+            //MatchPhoto p = MatchPhoto.AddNew("test.jpg", "A title", 113, u);
 
-            PhotoComment.AddCommentToPhoto(p.ID, u, "A comment");
+            //PhotoComment.AddCommentToPhoto(p.ID, u, "A comment");
 
-            var x = p.GetComments();
+            //var x = p.GetComments();
+
+            Match m = new Match(122);
+            Player p = new Player(1);
+            PlayerAccount pa = new PlayerAccount(p);
+            pa.AddPayment(15.5, "TEst match fee", m.MatchDate, m, PaymentStatus.Confirmed, PaymentType.MatchFee, CreditDebit.Debit);
             
 
         }
