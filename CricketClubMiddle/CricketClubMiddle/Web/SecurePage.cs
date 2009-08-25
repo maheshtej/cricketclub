@@ -36,13 +36,14 @@ namespace CricketClubMiddle.Web
             if (thisUser != null)
             {
                 thisUser.AuthenticateUser(password, true);
-            }
-            if (thisUser.IsLoggedIn)
-            {
-                LoggedOnUser = thisUser;
-                return;
-            }
+                if (thisUser.IsLoggedIn)
+                {
+                    LoggedOnUser = thisUser;
+                    return;
+                }
 
+            }
+            
             Response.Redirect(LogonPage + "?destination=" + HttpUtility.UrlEncode(Request.RawUrl));
             
         }

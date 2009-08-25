@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CricketClubMiddle;
+using CricketClubMiddle.Interactive;
 
 namespace CricketClubFantasyFives
 {
@@ -12,11 +13,11 @@ namespace CricketClubFantasyFives
         {
             foreach (User user in User.GetAll()) 
             {
-                FantasyTeam team = new FantasyTeam(user, match);
-                int score = team.GetScore();
-                user.CurrentScore = user.CurrentScore + score;
-                user.ScoreForLastMatch = score;
-                user.Save();
+                //FantasyTeam team = new FantasyTeam(user, match);
+                //int score = team.GetScore();
+                //user.CurrentScore = user.CurrentScore + score;
+                //user.ScoreForLastMatch = score;
+                //user.Save();
             }
         }
     }

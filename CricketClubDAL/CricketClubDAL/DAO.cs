@@ -21,7 +21,7 @@ namespace CricketClubDAL
             DataRow dr =  scorebook.ExecuteSQLAndReturnFirstRow(sql);
             PlayerData newPlayer = new PlayerData();
             newPlayer.ID = (int)dr["player_id"];
-            newPlayer.UserID = (int)dr["user_id"];
+            newPlayer.EmailAddress = dr["email_address"].ToString();
             newPlayer.Name = dr["player_name"].ToString();
             newPlayer.FullName = dr["full_name"].ToString();
             newPlayer.BattingStyle = dr["batting_style"].ToString();
@@ -60,7 +60,7 @@ namespace CricketClubDAL
             {
                 PlayerData newPlayer = new PlayerData();
                 newPlayer.ID = (int)dr["player_id"];
-                newPlayer.UserID = (int)dr["user_id"];
+                newPlayer.EmailAddress = dr["email_address"].ToString();
                 newPlayer.Name = dr["player_name"].ToString();
                 newPlayer.FullName = dr["full_name"].ToString();
                 newPlayer.BattingStyle = dr["batting_style"].ToString();

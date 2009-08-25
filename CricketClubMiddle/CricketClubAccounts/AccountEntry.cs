@@ -15,6 +15,12 @@ namespace CricketClubAccounts
         {
             get { return _data.PlayerID; }
         }
+
+        public PaymentType Type
+        {
+            get { return (PaymentType)_data.Type; }
+            set { _data.Type = (int)value; }
+        }
         
         /// <summary>
         /// Always enter as a positive number - user credit debit to determine
