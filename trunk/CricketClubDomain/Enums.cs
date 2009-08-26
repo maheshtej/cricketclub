@@ -44,6 +44,6 @@ namespace CricketClubDomain
 
     public enum PaymentStatus
     {
-        Confirmed, Unconfirmed
+        Confirmed, Unconfirmed, Deleted
     };
 }

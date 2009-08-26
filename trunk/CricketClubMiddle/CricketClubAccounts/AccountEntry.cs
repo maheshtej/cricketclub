@@ -66,6 +66,20 @@ namespace CricketClubAccounts
             get { return _data.ID; }
         }
 
+        public bool isConfirmed
+        {
+            get {
+                if (this.Status == PaymentStatus.Confirmed)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public PaymentStatus Status
         {
             get { return (PaymentStatus)_data.Status; }
