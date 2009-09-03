@@ -85,6 +85,7 @@
     <Compile Include="Stats\BattingCardLine.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Interactive\User.cs" />
+    <Compile Include="Utility\SettingsWrapper.cs" />
     <Compile Include="Venue.cs" />
     <Compile Include="Web\SecurePage.cs">
       <SubType>ASPXCodeBehind</SubType>

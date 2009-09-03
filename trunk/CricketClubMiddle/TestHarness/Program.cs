@@ -7,6 +7,7 @@ using CricketClubDomain;
 using CricketClubMiddle.Stats;
 using CricketClubMiddle.Interactive;
 using CricketClubAccounts;
+using CricketClubMiddle.Security;
 
 
 namespace TestHarness
@@ -47,11 +48,10 @@ namespace TestHarness
 
             //var x = p.GetComments();
 
-            Match m = new Match(122);
-            Player p = new Player(1);
-            PlayerAccount pa = new PlayerAccount(p);
-            pa.AddPayment(15.5, "TEst match fee", m.MatchDate, m, PaymentStatus.Confirmed, PaymentType.MatchFee, CreditDebit.Debit);
             
+            User u = new User(1);
+            u.GrantPermission(Permissions.Accountant);
+
 
         }
     }
