@@ -69,14 +69,17 @@
     <ProjectReference Include="..\..\CricketClubDAL\CricketClubDAL\CricketClubDAL.csproj">
       <Project>{1CC6DF73-AC0E-43C9-8B78-7F8023E3AD40}</Project>
       <Name>CricketClubDAL</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\CricketClubDomain\CricketClubDomain.csproj">
       <Project>{44A25B27-75C4-4F75-B6C1-DF3203229E59}</Project>
       <Name>CricketClubDomain</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CricketClubMiddle\CricketClubMiddle.csproj">
       <Project>{CD12D113-CEEC-4D3B-B258-7B647D8F83E9}</Project>
       <Name>CricketClubMiddle</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

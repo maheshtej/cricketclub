@@ -75,6 +75,12 @@
     <ProjectReference Include="..\..\CricketClubDomain\CricketClubDomain.csproj">
       <Project>{44A25B27-75C4-4F75-B6C1-DF3203229E59}</Project>
       <Name>CricketClubDomain</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CricketClubAccounts\CricketClubAccounts.csproj">
+      <Project>{109FD55B-E2E7-4014-A932-4DF5DEB23C71}</Project>
+      <Name>CricketClubAccounts</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\CricketClubMiddle\CricketClubMiddle.csproj">
       <Project>{CD12D113-CEEC-4D3B-B258-7B647D8F83E9}</Project>
