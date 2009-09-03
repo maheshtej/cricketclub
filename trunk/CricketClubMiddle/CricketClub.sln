@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketClubDAL", "..\Cricke
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\TestHarness.csproj", "{84E22892-D45B-4106-9785-93193C7645FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{109FD55B-E2E7-4014-A932-4DF5DEB23C71} = {109FD55B-E2E7-4014-A932-4DF5DEB23C71}
+		{1CC6DF73-AC0E-43C9-8B78-7F8023E3AD40} = {1CC6DF73-AC0E-43C9-8B78-7F8023E3AD40}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketClubDomain", "..\CricketClubDomain\CricketClubDomain.csproj", "{44A25B27-75C4-4F75-B6C1-DF3203229E59}"
 EndProject
