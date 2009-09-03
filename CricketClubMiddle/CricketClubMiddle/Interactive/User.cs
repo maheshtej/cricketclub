@@ -123,6 +123,22 @@ namespace CricketClubMiddle.Interactive
             private set;
         }
 
+        public bool IsAccountant
+        {
+            get
+            {
+                return HasPermission(Permissions.Accountant);
+            }
+        }
+
+        public bool IsChatAdmin
+        {
+            get
+            {
+                return HasPermission(Permissions.ChatAdmin);
+            }
+        }
+
         private int PermissionMask
         {
             get {
@@ -140,6 +156,15 @@ namespace CricketClubMiddle.Interactive
             }
         }
 
+        public void RevokePermission(int permission)
+        {
+            if (this.HasPermission(permission))
+            {
+                this.PermissionMask = (this.PermissionMask & ~permission);
+                this.Save();
+            }
+        }
+
         public bool HasPermission(int permission)
         {
             if ((permission & PermissionMask) == permission)
@@ -150,6 +175,11 @@ namespace CricketClubMiddle.Interactive
             {
                 return false;
             }
+        }
+
+        public override string ToString()
+        {
+            return DisplayName;
         }
 
         

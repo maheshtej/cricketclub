@@ -40,7 +40,7 @@ namespace CricketClubDAL
             newPlayer.NickName = dr["nickname"].ToString();
             try
             {
-                newPlayer.IsActive = bool.Parse(dr["IsActive"].ToString());
+                newPlayer.IsActive = Convert.ToBoolean((int)dr["Active"]);
             }
             catch
             {
@@ -79,7 +79,7 @@ namespace CricketClubDAL
                 newPlayer.NickName = dr["nickname"].ToString();
                 try
                 {
-                    newPlayer.IsActive = bool.Parse(dr["IsActive"].ToString());
+                    newPlayer.IsActive = Convert.ToBoolean((int)dr["Active"]);
                 }
                 catch
                 {
@@ -118,6 +118,7 @@ namespace CricketClubDAL
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "batting_style", "'" + playerData.BattingStyle + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "bowling_style", "'" + playerData.BowlingStyle + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "email_address", "'" + playerData.EmailAddress + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "active", Convert.ToInt16(playerData.IsActive).ToString()}));
 
         }
 
@@ -1104,6 +1105,7 @@ namespace CricketClubDAL
                 newUser.EmailAddress = dr["email_address"].ToString();
                 newUser.Password = dr["password"].ToString();
                 newUser.DisplayName = dr["display_name"].ToString();
+                newUser.Permissions = (int)dr["permissions"];
 
                 users.Add(newUser);
             }
@@ -1131,7 +1133,7 @@ namespace CricketClubDAL
 
         public void UpdateUser(UserData userData)
         {
-            string sql = "update users set {0} = {1} where user_id = " + userData.ID;
+            string sql = "update [users] set [{0}] = {1} where user_id = " + userData.ID;
             int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "username", "'" + userData.Name + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "password", "'" + userData.Password + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "email_address", "'" + userData.EmailAddress + "'" }));
@@ -1270,6 +1272,20 @@ namespace CricketClubDAL
 
             }
             return ChatID;
+        }
+
+        public string GetSetting(string settingName)
+        {
+            string sql = "select [value] from Settings where [key] = '" + settingName + "'";
+            return scorebook.ExecuteSQLAndReturnSingleResult(sql).ToString();
+        }
+
+        public void SetSetting(string settingName, string value)
+        {
+            string sql = "delete from Settings where [key] = '" + settingName + "'";
+            scorebook.ExecuteInsertOrUpdate(sql);
+            sql = "insert into Settings([key],[value]) select '"+settingName+"','"+value+"'";
+            scorebook.ExecuteInsertOrUpdate(sql);
         }
 
         #endregion
