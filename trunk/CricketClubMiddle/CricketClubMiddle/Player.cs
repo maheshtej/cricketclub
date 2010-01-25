@@ -62,7 +62,7 @@ namespace CricketClubMiddle
         {
             DAO myDAO = new DAO();
             List<PlayerData> data = myDAO.GetAllPlayers();
-            return (from a in data select new Player(a)).ToList();
+            return (from a in data select new Player(a)).OrderBy(a=>a.FormalName).ToList();
         }
 
         #endregion
@@ -90,10 +90,55 @@ namespace CricketClubMiddle
             }
         }
 
+        /// <summary>
+        /// Setter is obsolete - use First Name and Surname
+        /// </summary>
         public string Name
         {
-            get { return PlayerData.Name; }
+            get {
+                if (this.FirstName != "" && this.Surname != "")
+                {
+                    return FirstName.Substring(0, 1).ToUpper() + MiddleInitials + " " + Surname;
+                }
+                else
+                {
+                    return PlayerData.Name;
+                }
+                 
+            }
             set { PlayerData.Name = value; }
+        }
+
+        /// <summary>
+        /// Surname, Firstname
+        /// </summary>
+        public string FormalName
+        {
+            get
+            {
+                if (this.FirstName != "" && this.Surname != "")
+                {
+                    return Surname + ", " + FirstName;
+                }
+                else
+                {
+                    string name = PlayerData.Name;
+                    int firstSpace = name.IndexOf(' ');
+                    string surname = "";
+                    string initials = "";
+                    if (firstSpace > 0)
+                    {
+                        surname = name.Substring(firstSpace);
+                        initials = name.Substring(0, firstSpace);
+                        return surname.Trim() + ", " + initials.Trim();
+                    }
+                    else
+                    {
+                        return PlayerData.Name;
+                    }
+                    
+                }
+            }
         }
 
         public DateTime DOB
@@ -106,6 +151,45 @@ namespace CricketClubMiddle
         {
             get { return PlayerData.FullName; }
             set { PlayerData.FullName = value; }
+        }
+
+        public string FirstName 
+        {
+            get { return PlayerData.FirstName; }
+            set { PlayerData.FirstName = value; }
+        }
+
+        public string Surname
+        {
+            get { return PlayerData.Surname; }
+            set { PlayerData.Surname = value; }
+        
+        }
+
+        public string MiddleInitials
+        {
+            get { return PlayerData.MiddleInitials; }
+            set { PlayerData.MiddleInitials = value; }
+        
+        }
+
+        public Player RingerOf
+        {
+            get
+            {
+                if (PlayerData.RingerOf > 0)
+                {
+                    return new Player(PlayerData.RingerOf);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                PlayerData.RingerOf = value.ID;
+            }
         }
 
         public string Nickname
@@ -156,6 +240,8 @@ namespace CricketClubMiddle
                 PlayerData.IsActive = value;
             }
         }
+
+
 
         #endregion
 
@@ -975,7 +1061,7 @@ namespace CricketClubMiddle
 
         public override string ToString()
         {
-            return this.Name;
+            return this.FormalName;
         }
 
         public bool AssociateWithUser(User user)

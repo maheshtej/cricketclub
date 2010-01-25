@@ -26,6 +26,15 @@ namespace CricketClubDAL
             newPlayer.FullName = dr["full_name"].ToString();
             newPlayer.BattingStyle = dr["batting_style"].ToString();
             newPlayer.BowlingStyle = dr["bowling_style"].ToString();
+            newPlayer.FirstName = dr["first_name"].ToString();
+            newPlayer.Surname = dr["last_name"].ToString();
+            newPlayer.MiddleInitials = dr["middle_initials"].ToString();
+            try
+            {
+                newPlayer.RingerOf = (int)dr["ringer_of"];
+            }
+            catch { }
+
             try
             {
                 newPlayer.DateOfBirth = (DateTime)dr["dob"];
@@ -65,6 +74,14 @@ namespace CricketClubDAL
                 newPlayer.FullName = dr["full_name"].ToString();
                 newPlayer.BattingStyle = dr["batting_style"].ToString();
                 newPlayer.BowlingStyle = dr["bowling_style"].ToString();
+                newPlayer.FirstName = dr["first_name"].ToString();
+                newPlayer.Surname = dr["last_name"].ToString();
+                newPlayer.MiddleInitials = dr["middle_initials"].ToString();
+                try
+                {
+                    newPlayer.RingerOf = (int)dr["ringer_of"];
+                }
+                catch { }
                 try
                 {
                     newPlayer.DateOfBirth = (DateTime)dr["dob"];
@@ -118,8 +135,12 @@ namespace CricketClubDAL
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "batting_style", "'" + playerData.BattingStyle + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "bowling_style", "'" + playerData.BowlingStyle + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "email_address", "'" + playerData.EmailAddress + "'" }));
-            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "active", Convert.ToInt16(playerData.IsActive).ToString()}));
-
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "first_name", "'" + playerData.FirstName + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "last_name", "'" + playerData.Surname + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "middle_initials", "'" + playerData.MiddleInitials + "'" }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "active", Convert.ToInt16(playerData.IsActive).ToString() }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "ringer_of", playerData.RingerOf.ToString() }));
+            
         }
 
         public List<BattingCardLineData> GetPlayerBattingStatsData(int PlayerID)
@@ -839,7 +860,7 @@ namespace CricketClubDAL
                 + SafeForSQL(data.Headline) + "', '" 
                 + SafeForSQL(data.ShortHeadline) + "', '" 
                 + SafeForSQL(data.Teaser) + "', #" 
-                + data.Date.ToUniversalTime() + "#";
+                + data.Date.ToString("dd MMMM yyyy HH:mm:ss") + "#";
 
             int temp = scorebook.ExecuteInsertOrUpdate(sql);
 
