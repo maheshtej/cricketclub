@@ -48,3 +48,5 @@ C:\Documents and Settings\ponting\Desktop\VCCLibs\CricketClubMiddle\TestHarness\
 C:\Documents and Settings\ponting\Desktop\VCCLibs\CricketClubMiddle\TestHarness\bin\x86\Debug\CricketClubDAL.pdb
 C:\Documents and Settings\ponting\Desktop\VCCLibs\CricketClubMiddle\TestHarness\bin\x86\Debug\CricketClubAccounts.dll
 C:\Documents and Settings\ponting\Desktop\VCCLibs\CricketClubMiddle\TestHarness\bin\x86\Debug\CricketClubAccounts.pdb
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CCCheckout\CricketClubMiddle\TestHarness\bin\x86\Debug\CricketClubAccounts.dll
+C:\Users\Graham\Documents\Visual Studio 2008\Projects\CCCheckout\CricketClubMiddle\TestHarness\bin\x86\Debug\CricketClubAccounts.pdb

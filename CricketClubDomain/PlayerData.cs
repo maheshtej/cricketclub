@@ -84,6 +84,30 @@ namespace CricketClubDomain
             set;
         }
 
+        public string FirstName
+        {
+            get;
+            set;
+        }
+
+        public string Surname
+        {
+            get;
+            set;
+        }
+
+        public string MiddleInitials
+        {
+            get;
+            set;
+        }
+
+        public int RingerOf
+        {
+            get;
+            set;
+        }
+
 
     }
 }
