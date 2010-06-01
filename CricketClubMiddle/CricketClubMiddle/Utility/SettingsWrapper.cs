@@ -14,10 +14,10 @@ namespace CricketClubMiddle.Utility
         /// </summary>
         /// <param name="settingName">The Key</param>
         /// <param name="settingValue">The String version of the Value</param>
-        public static void Set(string settingName, string settingValue)
+        public static void Set(string settingName, string settingValue, string description)
         {
             DAO myDao = new DAO();
-            myDao.SetSetting(settingName, settingValue);
+            myDao.SetSetting(settingName, settingValue, description);
         }
 
         public static double GetSettingDouble(string settingName, double defaultValue)
@@ -48,6 +48,13 @@ namespace CricketClubMiddle.Utility
         {
             DAO myDao = new DAO();
             return myDao.GetSetting(settingName);
+        }
+
+        public static List<Setting> GetAll()
+        {
+            DAO myDao = new DAO();
+            return (from a in myDao.GetAllSettings() select new Setting(a)).OrderBy(a=>a.Name).ToList();
+
         }
     }
 }

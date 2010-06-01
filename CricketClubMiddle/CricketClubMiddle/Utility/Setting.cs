@@ -2,41 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CricketClubDomain;
 
-namespace CricketClubDomain
+namespace CricketClubMiddle.Utility
 {
-    public class ChatData
+    public class Setting
     {
-        public string Comment
-        {
-            get;
-            set;
-        }
-
         public string Name
         {
             get;
             set;
         }
-
-        public DateTime Date
+        public string Value
+        {
+            get;
+            set;
+        }
+        public string Description
         {
             get;
             set;
         }
 
-        public string IPAddress
+        public Setting(SettingData data)
         {
-            get;
-            set;
+            Name = data.Name;
+            Value = data.Value;
+            Description = data.Description;
         }
-
-        public string ImageUrl
-        {
-            get;
-            set;
-        }
-
-        public int ID { get; set; }
     }
 }

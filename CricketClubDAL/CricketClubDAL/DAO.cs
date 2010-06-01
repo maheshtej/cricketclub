@@ -494,7 +494,8 @@ namespace CricketClubDAL
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "our_innings_was_declared", (Convert.ToInt16(Data.WeDeclared)).ToString() }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "their_innings_length", Data.TheirInningsLength.ToString() }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "our_innings_length", Data.OurInningsLength.ToString() }));
-
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "abandoned", (Convert.ToInt16(Data.Abandoned)).ToString() }));
+            
 
         }
 
@@ -979,6 +980,7 @@ namespace CricketClubDAL
                 item.Date = (DateTime)row["post_time"];
                 item.Name = row["annon_user_name"].ToString();
                 item.ImageUrl = row["image_url"].ToString();
+                item.ID = int.Parse(row["ID"].ToString());
                 item.Comment = row["comment1"].ToString() +
                     row["comment2"].ToString() +
                     row["comment3"].ToString() +
@@ -991,6 +993,34 @@ namespace CricketClubDAL
                     row["comment10"].ToString();
                 data.Add(item);
             
+            }
+            return data;
+        }
+
+        public List<ChatData> GetChatAfter(int CommentID)
+        {
+            string sql = "select * from chat where ID > " + CommentID;
+            DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
+            List<ChatData> data = new List<ChatData>();
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                ChatData item = new ChatData();
+                item.Date = (DateTime)row["post_time"];
+                item.Name = row["annon_user_name"].ToString();
+                item.ImageUrl = row["image_url"].ToString();
+                item.ID = int.Parse(row["ID"].ToString());
+                item.Comment = row["comment1"].ToString() +
+                    row["comment2"].ToString() +
+                    row["comment3"].ToString() +
+                    row["comment4"].ToString() +
+                    row["comment5"].ToString() +
+                    row["comment6"].ToString() +
+                    row["comment7"].ToString() +
+                    row["comment8"].ToString() +
+                    row["comment9"].ToString() +
+                    row["comment10"].ToString();
+                data.Add(item);
+
             }
             return data;
         }
@@ -1295,20 +1325,60 @@ namespace CricketClubDAL
             return ChatID;
         }
 
+        
+
+        #endregion
+
+        #region Utility
+
         public string GetSetting(string settingName)
         {
             string sql = "select [value] from Settings where [key] = '" + settingName + "'";
-            return scorebook.ExecuteSQLAndReturnSingleResult(sql).ToString();
+            try
+            {
+                return scorebook.ExecuteSQLAndReturnSingleResult(sql).ToString();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        public void SetSetting(string settingName, string value)
+        public void SetSetting(string settingName, string value, string description)
         {
             string sql = "delete from Settings where [key] = '" + settingName + "'";
             scorebook.ExecuteInsertOrUpdate(sql);
-            sql = "insert into Settings([key],[value]) select '"+settingName+"','"+value+"'";
+            sql = "insert into Settings([key],[value], description) select '" + settingName + "','" + value + "','"+SafeForSQL(description)+"'";
             scorebook.ExecuteInsertOrUpdate(sql);
         }
 
+        public List<SettingData> GetAllSettings()
+        {
+            string sql = "select * from Settings";
+            DataSet data = scorebook.ExecuteSQLAndReturnAllRows(sql);
+            List<SettingData> settings = new List<SettingData>();
+
+            foreach (DataRow row in data.Tables[0].Rows)
+            {
+                SettingData setting = new SettingData();
+                setting.Name = row["key"].ToString();
+                setting.Value = row["value"].ToString();
+                setting.Description = row["description"].ToString();
+                settings.Add(setting);
+            }
+            return settings;
+        }
+
+        #endregion
+
+        #region Logging
+
+        public void LogMessage(string message, string stack, string level, DateTime when)
+        {
+            string sql = "insert into log(Message, Stack, Severity, MessageTime) select '"+message+"','"+stack+"','"+level+"',#"+when.ToString("U")+"#";
+            scorebook.ExecuteInsertOrUpdate(sql);
+        }
+        
         #endregion
 
         private static string SafeForSQL(string s)

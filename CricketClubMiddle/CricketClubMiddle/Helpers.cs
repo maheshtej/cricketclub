@@ -78,7 +78,7 @@ namespace CricketClubMiddle
 
         public static string CreateRandomPassword(int PasswordLength)
         {
-            string _allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGH­ JKLMNOPQRSTUVWXYZ0123456789!@$?";
+            string _allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGH­JKLMNOPQRSTUVWXYZ0123456789!@$?";
             Random randNum = new Random();
             char[] chars = new char[PasswordLength];
             int allowedCharCount = _allowedChars.Length;
