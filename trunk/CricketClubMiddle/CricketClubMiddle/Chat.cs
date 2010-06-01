@@ -21,6 +21,14 @@ namespace CricketClubMiddle
         
         }
 
+        public static IEnumerable<ChatItem> GetAllCommentsAfter(int CommentID)
+        {
+            DAO myDao = new DAO();
+
+            return from a in myDao.GetChatAfter(CommentID) select new ChatItem(a);
+
+        }
+
         public static void PostItem(ChatItem item)
         {
             DAO myDao = new DAO();

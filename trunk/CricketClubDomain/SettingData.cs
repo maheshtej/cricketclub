@@ -5,38 +5,22 @@ using System.Text;
 
 namespace CricketClubDomain
 {
-    public class ChatData
+    public class SettingData
     {
-        public string Comment
-        {
-            get;
-            set;
-        }
-
         public string Name
         {
             get;
             set;
         }
-
-        public DateTime Date
+        public string Value
         {
             get;
             set;
         }
-
-        public string IPAddress
+        public string Description
         {
             get;
             set;
         }
-
-        public string ImageUrl
-        {
-            get;
-            set;
-        }
-
-        public int ID { get; set; }
     }
 }

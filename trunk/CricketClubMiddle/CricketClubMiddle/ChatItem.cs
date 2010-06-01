@@ -50,6 +50,14 @@ namespace CricketClubMiddle
             set { _data.ImageUrl = value; }
         }
 
+        public int ID
+        {
+            get
+            {
+                return _data.ID;
+            }
+        }
+
         
     }
 }

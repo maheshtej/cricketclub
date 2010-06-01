@@ -8,6 +8,8 @@ using CricketClubMiddle.Stats;
 using CricketClubMiddle.Interactive;
 using CricketClubAccounts;
 using CricketClubMiddle.Security;
+using CricketClubMiddle.Utility;
+using CricketClubMiddle.Logging;
 
 
 namespace TestHarness
@@ -48,9 +50,11 @@ namespace TestHarness
 
             //var x = p.GetComments();
 
-            
-            User u = new User(1);
-            u.GrantPermission(Permissions.Accountant);
+            Logger.Log("test message", new ApplicationException(), Severity.Error);
+            Logger.Log("test debug message", new ApplicationException(), Severity.Debug);
+            Logger.LoggingLevel = Severity.Debug;
+            Logger.Log("test info message", new ApplicationException(), Severity.Info);
+
 
 
         }

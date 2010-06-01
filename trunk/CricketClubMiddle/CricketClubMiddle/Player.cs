@@ -96,7 +96,7 @@ namespace CricketClubMiddle
         public string Name
         {
             get {
-                if (this.FirstName != "" && this.Surname != "")
+                if (this.FirstName != "" && this.Surname != "" && this.FirstName != null && this.Surname != null)
                 {
                     return FirstName.Substring(0, 1).ToUpper() + MiddleInitials + " " + Surname;
                 }
