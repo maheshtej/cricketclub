@@ -164,6 +164,7 @@ namespace CricketClubDAL
                 scData.Score = (int)row["score"];
                 scData.MatchTypeID = (int)row["comp_id"];
                 scData.MatchDate = (DateTime)row["match_date"];
+                scData.VenueID = (int)row["venue_id"];
 
                 data.Add(scData);
 
@@ -191,7 +192,7 @@ namespace CricketClubDAL
                 scData.Score = (int)row["score"];
                 scData.MatchTypeID = (int)row["comp_id"];
                 scData.MatchDate = (DateTime)row["match_date"];
-
+                scData.VenueID = (int)row["venue_id"];
                 data.Add(scData);
 
             }
@@ -217,6 +218,8 @@ namespace CricketClubDAL
                 scData.MatchID = (int)row["a.match_id"];
                 scData.MatchTypeID = (int)row["comp_id"];
                 scData.MatchDate = (DateTime)row["match_date"];
+                scData.VenueID = (int)row["venue_id"];
+                
 
                 data.Add(scData);
 
