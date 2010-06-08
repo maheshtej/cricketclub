@@ -64,5 +64,11 @@ namespace CricketClubDomain
             set;
         }
 
+        public int VenueID
+        {
+            get;
+            set;
+        }
+
     }
 }

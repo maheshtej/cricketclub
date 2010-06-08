@@ -19,7 +19,13 @@ namespace CricketClubDomain
         {
             get;
             set;
-        } 
+        }
+
+        public int VenueID
+        {
+            get;
+            set;
+        }
 
         public string PlayerName
         {

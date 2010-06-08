@@ -13,6 +13,8 @@ namespace CricketClubMiddle
     public class Player
     {
 
+        public static InternalCache cache = InternalCache.GetInstance();
+
         #region Members
 
         private PlayerData PlayerData;
@@ -260,9 +262,9 @@ namespace CricketClubMiddle
             }
         }
 
-        public int GetNumberOfMatchesPlayedIn(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetNumberOfMatchesPlayedIn(DateTime startDate, DateTime endDate, List<MatchType> matchType , Venue venue)
         {
-            var matches = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var matches = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                            select a).Count();
             return matches;
         }
@@ -312,11 +314,11 @@ namespace CricketClubMiddle
             
         }
 
-        public decimal GetBattingAverage(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public decimal GetBattingAverage(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             try
             {
-                decimal average = ((decimal)this.GetRunsScored(startDate, endDate, matchType) / (this.GetInnings(startDate, endDate, matchType) - this.GetNotOuts(startDate, endDate, matchType)));
+                decimal average = ((decimal)this.GetRunsScored(startDate, endDate, matchType, venue) / (this.GetInnings(startDate, endDate, matchType, venue) - this.GetNotOuts(startDate, endDate, matchType, venue)));
                 return Math.Round(average, 2);
             }
             catch
@@ -326,9 +328,9 @@ namespace CricketClubMiddle
 
         }
 
-        public int GetRunsScored(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetRunsScored(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var runsScored = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var runsScored = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                               select a.Score).Sum();
             return runsScored;
         }
@@ -348,9 +350,9 @@ namespace CricketClubMiddle
             return runsScored;
         }
 
-        public int Get100sScored(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int Get100sScored(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var tons = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var tons = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                         where a.Score >= 100
                         select a).Count();
             return tons;
@@ -373,9 +375,9 @@ namespace CricketClubMiddle
             return tons;
         }
 
-        public int Get50sScored(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int Get50sScored(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var fifties = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var fifties = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                         where a.Score >= 50
                         where a.Score < 100
                         select a).Count();
@@ -401,11 +403,11 @@ namespace CricketClubMiddle
             return fifties;
         }
 
-        public int GetNotOuts(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetNotOuts(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var notouts = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
-                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.NotOut
-                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.RetiredHurt
+            var notouts = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
+                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.NotOut ||
+                           (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.RetiredHurt
                            select a).Count();
             return notouts;
         }
@@ -413,8 +415,8 @@ namespace CricketClubMiddle
         public int GetNotOuts(int MatchID)
         {
             var notouts = (from a in _battingStatsData
-                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.NotOut
-                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.RetiredHurt
+                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.NotOut ||
+                           (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.RetiredHurt
                            where a.MatchID == MatchID
                            select a).Count();
             return notouts;
@@ -423,15 +425,15 @@ namespace CricketClubMiddle
         public int GetNotOuts()
         {
             var notouts = (from a in _battingStatsData
-                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.NotOut
-                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.RetiredHurt
+                           where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.NotOut ||
+                           (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.RetiredHurt
                            select a).Count();
             return notouts;
         }
 
-        public int GetInnings(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetInnings(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var knocks = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var knocks = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.RetiredHurt
                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.NotOut
                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.DidNotBat
@@ -466,11 +468,11 @@ namespace CricketClubMiddle
                 throw new ApplicationException("Player Not Batting in this Match");
             }
         }
-        public int GetBattingPosition(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetBattingPosition(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             try
             {
-                var x = (from a in FilterData(_battingStatsData, startDate, endDate, matchType) select a.BattingAt).Average();
+                var x = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue) select a.BattingAt).Average();
                 return (int)Math.Round(x, 0)+1;
             }
             catch
@@ -484,9 +486,9 @@ namespace CricketClubMiddle
             return _battingStatsData.Count;
         }
 
-        public int GetMatchesPlayed(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetMatchesPlayed(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            return FilterData(_battingStatsData, startDate, endDate, matchType).Count();
+            return FilterData(_battingStatsData, startDate, endDate, matchType, venue).Count();
             
         }
 
@@ -513,9 +515,9 @@ namespace CricketClubMiddle
             return knocks;
         }
 
-        public int GetHighScore(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetHighScore(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var highScore = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var highScore = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                              select a.Score).Max();
             return highScore;
         }
@@ -542,9 +544,9 @@ namespace CricketClubMiddle
             }
         }
 
-        public int Get4s(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int Get4s(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var fours = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var fours = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                          select a.Fours).Sum();
             return fours;
         }
@@ -563,9 +565,9 @@ namespace CricketClubMiddle
                          select a.Fours).Sum();
             return fours;
         }
-        public int Get6s(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int Get6s(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var sixes = (from a in FilterData(_battingStatsData, startDate, endDate, matchType)
+            var sixes = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
                          select a.Sixes).Sum();
             return sixes;
         }
@@ -611,9 +613,9 @@ namespace CricketClubMiddle
             return wt;
         }
 
-        public int GetWicketsTaken(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetWicketsTaken(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var wt = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType)
+            var wt = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType, venue)
                       select a.Wickets).Sum();
             return wt;
         }
@@ -640,11 +642,11 @@ namespace CricketClubMiddle
             }
         }
 
-        public decimal GetBowlingAverage(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public decimal GetBowlingAverage(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             try
             {
-                decimal fraction = (GetRunsConceeded(startDate, endDate, matchType) / GetWicketsTaken(startDate, endDate, matchType));
+                decimal fraction = (GetRunsConceeded(startDate, endDate, matchType, venue) / GetWicketsTaken(startDate, endDate, matchType, venue));
                 return Math.Round(fraction, 2);
             }
             catch
@@ -680,11 +682,11 @@ namespace CricketClubMiddle
         
         }
 
-        public decimal GetEconomy(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public decimal GetEconomy(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             try
             {
-                decimal fraction = (GetRunsConceeded(startDate, endDate, matchType) / GetOversBowled(startDate, endDate, matchType));
+                decimal fraction = (GetRunsConceeded(startDate, endDate, matchType, venue) / GetOversBowled(startDate, endDate, matchType, venue));
                 return Math.Round(fraction, 2);
             }
             catch
@@ -716,9 +718,9 @@ namespace CricketClubMiddle
             return fivefers;
         }
 
-        public int GetFiveFers(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetFiveFers(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var fivefers = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType)
+            var fivefers = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType, venue)
                             where a.Wickets >= 5
                             select a).Count();
             return fivefers;
@@ -741,9 +743,9 @@ namespace CricketClubMiddle
             return threefers;
         }
 
-        public int GetThreeFers(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetThreeFers(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var threefers = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType)
+            var threefers = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType, venue)
                             where a.Wickets >= 3
                             select a).Count();
             return threefers;
@@ -766,9 +768,9 @@ namespace CricketClubMiddle
             return tenfers;
         }
 
-        public int GetTenFers(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetTenFers(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var tenfers = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType)
+            var tenfers = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType, venue)
                              where a.Wickets >= 10
                              select a).Count();
             return tenfers;
@@ -795,10 +797,10 @@ namespace CricketClubMiddle
             }
         }
 
-        public decimal GetStrikeRate(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public decimal GetStrikeRate(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             try {
-            decimal fraction = (GetOversBowled(startDate, endDate, matchType) * 6 / GetWicketsTaken(startDate, endDate, matchType));
+            decimal fraction = (GetOversBowled(startDate, endDate, matchType, venue) * 6 / GetWicketsTaken(startDate, endDate, matchType, venue));
             return Math.Round(fraction, 2);
             }
             catch
@@ -826,9 +828,9 @@ namespace CricketClubMiddle
             return ob;
         }
 
-        public decimal GetOversBowled(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public decimal GetOversBowled(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var ob = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType)
+            var ob = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType, venue)
                       select a.Overs).Sum();
             return ob;
         }
@@ -849,9 +851,9 @@ namespace CricketClubMiddle
             return rc;
         }
 
-        public int GetRunsConceeded(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetRunsConceeded(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var rc = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate,matchType)
+            var rc = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate,matchType, venue)
                       select a.Runs).Sum();
             return rc;
         }
@@ -882,19 +884,19 @@ namespace CricketClubMiddle
             return mostwickets.ToString() + "/" + runs.ToString();
         }
 
-        public string GetBestMatchFigures(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public string GetBestMatchFigures(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             int mostwickets;
             try
             {
-                mostwickets = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType)
+                mostwickets = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType, venue)
                                select a.Wickets).Max();
             }
             catch
             {
                 return "0/0";
             }
-            var runs = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType)
+            var runs = (from a in FilterBowlingData(_bowlingStatsData, startDate, endDate, matchType, venue)
                         where a.Wickets == mostwickets
                         select a.Runs).Min();
             return mostwickets.ToString() + "/" + runs.ToString();
@@ -955,9 +957,9 @@ namespace CricketClubMiddle
                      
         }
 
-        public int GetCatchesTaken(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetCatchesTaken(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var ct = (from a in FilterData(_fieldingStatsData, startDate, endDate, matchType)
+            var ct = (from a in FilterData(_fieldingStatsData, startDate, endDate, matchType, venue)
                       where (
                       ((ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.Caught && a.FielderID == this.ID)
                       ||
@@ -989,9 +991,9 @@ namespace CricketClubMiddle
             return stmp;
         }
 
-        public int GetStumpings(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetStumpings(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var stmp = (from a in FilterData(_fieldingStatsData, startDate, endDate, matchType)
+            var stmp = (from a in FilterData(_fieldingStatsData, startDate, endDate, matchType, venue)
                         where a.FielderID == this.ID
                         where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.Stumped
                         select a).Count();
@@ -1017,9 +1019,9 @@ namespace CricketClubMiddle
             return stmp;
         }
 
-        public int GetRunOuts(DateTime startDate, DateTime endDate, List<MatchType> matchType)
+        public int GetRunOuts(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var stmp = (from a in FilterData(_fieldingStatsData, startDate, endDate, matchType)
+            var stmp = (from a in FilterData(_fieldingStatsData, startDate, endDate, matchType, venue)
                         where a.FielderID == this.ID
                         where (ModesOfDismissal)a.ModeOfDismissal == ModesOfDismissal.RunOut
                         select a).Count();
@@ -1041,21 +1043,25 @@ namespace CricketClubMiddle
         #endregion
 
 
-        private static IEnumerable<BattingCardLineData> FilterData(List<BattingCardLineData> data, DateTime startDate, DateTime endDate, List<MatchType> matchTypes)
+        private static IEnumerable<BattingCardLineData> FilterData(List<BattingCardLineData> data, DateTime startDate, DateTime endDate, List<MatchType> matchTypes, Venue venue)
         {
             return from a in data
                    where (a.MatchDate >= startDate || startDate == null)
                    where (a.MatchDate <= endDate || endDate == null)
                    where (matchTypes.Any(b=>(int)b ==  a.MatchTypeID) || matchTypes.Contains(MatchType.All))
+                   where (venue == null || a.VenueID == venue.ID)
                    select a;
         }
 
-        private static IEnumerable<BowlingStatsEntryData> FilterBowlingData(List<BowlingStatsEntryData> data, DateTime startDate, DateTime endDate, List<MatchType> matchTypes)
+        
+
+        private static IEnumerable<BowlingStatsEntryData> FilterBowlingData(List<BowlingStatsEntryData> data, DateTime startDate, DateTime endDate, List<MatchType> matchTypes, Venue venue)
         {
             return from a in data
                    where (a.MatchDate >= startDate || startDate == null)
                    where (a.MatchDate <= endDate || endDate == null)
                    where (matchTypes.Any(b => (int)b == a.MatchTypeID) || matchTypes.Contains(MatchType.All))
+                   where (venue == null || a.VenueID == venue.ID)
                    select a;
         }
 
