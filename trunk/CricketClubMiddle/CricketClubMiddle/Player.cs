@@ -434,8 +434,6 @@ namespace CricketClubMiddle
         public int GetInnings(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             var knocks = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
-                         where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.RetiredHurt
-                         where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.NotOut
                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.DidNotBat
                          select a).Count();
             return knocks;
@@ -497,8 +495,6 @@ namespace CricketClubMiddle
         public int GetInnings(int MatchID)
         {
             var knocks = (from a in _battingStatsData
-                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.RetiredHurt
-                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.NotOut
                           where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.DidNotBat
                           where a.MatchID == MatchID
                           select a).Count();
@@ -508,8 +504,6 @@ namespace CricketClubMiddle
         public int GetInnings()
         {
             var knocks = (from a in _battingStatsData
-                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.RetiredHurt
-                          where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.NotOut
                           where (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.DidNotBat
                           select a).Count();
             return knocks;

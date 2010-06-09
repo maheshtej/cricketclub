@@ -173,6 +173,7 @@ namespace CricketClubDAL
             return data;
         }
 
+       
         public List<BattingCardLineData> GetPlayerFieldingStatsData(int PlayerID)
         {
             List<BattingCardLineData> data = new List<BattingCardLineData>();
@@ -199,6 +200,8 @@ namespace CricketClubDAL
 
             return data;
         }
+
+        
 
         public List<BowlingStatsEntryData> GetPlayerBowlingStatsData(int PlayerID)
         {

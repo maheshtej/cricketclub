@@ -5,13 +5,14 @@ using System.Text;
 using System.Data;
 using CricketClubDAL;
 using CricketClubDomain;
+using CricketClubMiddle.Stats;
 
 namespace CricketClubMiddle
 {
     public class Team
     {
-        private InternalCache teamCache = InternalCache.GetInstance();
         private DAO myDAO = new DAO();
+        private InternalCache teamCache = InternalCache.GetInstance();
         private TeamData _teamData;
 
         public Team(int TeamID)
@@ -25,6 +26,11 @@ namespace CricketClubMiddle
             {
                 _teamData = (TeamData)teamCache.Get("team" + TeamID);
             }
+        }
+
+        public TeamStats GetStats(DateTime fromDate, DateTime toDate, List<MatchType> matchTypes, Venue venue)
+        {
+            return new TeamStats(this, fromDate, toDate, matchTypes, venue);
         }
 
         public static Team CreateNewTeam(string TeamName)
@@ -82,6 +88,10 @@ namespace CricketClubMiddle
         {
             _teamData = data;
         }
+
+
+        
+
 
     }
 }
