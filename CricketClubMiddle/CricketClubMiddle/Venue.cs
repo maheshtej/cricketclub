@@ -6,6 +6,7 @@ using System.Web;
 using System.Data;
 using CricketClubDAL;
 using CricketClubDomain;
+using CricketClubMiddle.Stats;
 
 namespace CricketClubMiddle
 {
@@ -98,6 +99,12 @@ namespace CricketClubMiddle
         public override string ToString()
         {
             return this.Name;
+        }
+
+
+        public VenueStats GetStats(DateTime fromDate, DateTime toDate, List<MatchType> matchTypes)
+        {
+            return new VenueStats(this, fromDate, toDate, matchTypes);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace CricketClubMiddle.Stats
             }
             else
             {
-                bCard = match.GetThierBattingScoreCard();
+                bCard = match.GetTheirBattingScoreCard();
             }
         }
 

@@ -351,7 +351,7 @@ namespace CricketClubMiddle
         }
 
         private BattingCard _theirBatting = null;
-        public BattingCard GetThierBattingScoreCard()
+        public BattingCard GetTheirBattingScoreCard()
         {
             if (_theirBatting == null)
             {
@@ -395,7 +395,7 @@ namespace CricketClubMiddle
             }
             else if (team.ID == Opposition.ID)
             {
-                sc = GetThierBattingScoreCard();
+                sc = GetTheirBattingScoreCard();
             }
             else
             {
@@ -417,7 +417,7 @@ namespace CricketClubMiddle
             }
             else if (team.ID == Opposition.ID)
             {
-                sc = GetThierBattingScoreCard();
+                sc = GetTheirBattingScoreCard();
             }
             else
             {
