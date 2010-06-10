@@ -7,6 +7,7 @@ using System.Data;
 using CricketClubDAL;
 using CricketClubDomain;
 using CricketClubMiddle.Interactive;
+using CricketClubMiddle;
 
 namespace CricketClubMiddle
 {
@@ -1080,4 +1081,23 @@ namespace CricketClubMiddle
         }
 
     }
+}
+
+public class PlayerComparer : IEqualityComparer<Player>
+{
+
+    #region IEqualityComparer<Player> Members
+
+    public bool Equals(Player x, Player y)
+    {
+        if (x.ID == y.ID) return true;
+        return false;
+    }
+
+    public int GetHashCode(Player obj)
+    {
+        return obj.ID;
+    }
+
+    #endregion
 }
