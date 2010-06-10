@@ -6,8 +6,9 @@ using CricketClubDomain;
 
 namespace CricketClubMiddle.Stats
 {
-    public class CaptainStats
+    public class KeeperStats
     {
+
         private Player _player;
         private List<Match> FilteredMatchData;
         private DateTime _fromDate;
@@ -29,19 +30,19 @@ namespace CricketClubMiddle.Stats
             set;
         }
 
-        public static List<CaptainStats> GetAll(DateTime fromDate, DateTime toDate, List<MatchType> matchTypes, Venue venue)
+        public static List<KeeperStats> GetAll(DateTime fromDate, DateTime toDate, List<MatchType> matchTypes, Venue venue)
         {
-            var captains = Match.GetResults(fromDate,toDate).Where(a => a.Captain != null && a.Captain.ID>0).Select(a => a.Captain).Distinct(new PlayerComparer());
-            List<CaptainStats> c = new List<CaptainStats>();
-            foreach (Player p in captains)
+            var keepers = Match.GetResults(fromDate,toDate).Where(a => a.WicketKeeper != null && a.WicketKeeper.ID>0).Select(a => a.WicketKeeper).Distinct(new PlayerComparer());
+            List<KeeperStats> c = new List<KeeperStats>();
+            foreach (Player p in keepers)
             {
-                c.Add(new CaptainStats(p, fromDate, toDate, matchTypes, venue));
+                c.Add(new KeeperStats(p, fromDate, toDate, matchTypes, venue));
             }
             return c;
 
         }
 
-        public CaptainStats(Player player, DateTime fromDate, DateTime toDate, List<MatchType> matchTypes, Venue venue)
+        public KeeperStats(Player player, DateTime fromDate, DateTime toDate, List<MatchType> matchTypes, Venue venue)
         {
             _player = player;
             _fromDate = fromDate;
@@ -57,72 +58,56 @@ namespace CricketClubMiddle.Stats
             get
             {
                 InternalCache cache = InternalCache.GetInstance();
-                if (cache.Get("CaptainsMatchData_" + Player.ID) == null)
+                if (cache.Get("KeepersMatchData_" + Player.ID) == null)
                 {
                     List<Match> allMatches;
-                    allMatches = Match.GetResults().Where(a => a.Captain.ID == Player.ID).ToList();
-                    cache.Insert("CaptainsMatchData_" + Player.ID, allMatches, new TimeSpan(365, 0, 0, 0));
+                    allMatches = Match.GetResults().Where(a => a.WicketKeeper.ID == Player.ID).ToList();
+                    cache.Insert("KeepersMatchData_" + Player.ID, allMatches, new TimeSpan(365, 0, 0, 0));
                     return allMatches;
                 }
                 else
                 {
-                    return (List<Match>)cache.Get("CaptainsMatchData_" + Player.ID);
+                    return (List<Match>)cache.Get("KeepersMatchData_" + Player.ID);
                 }
             }
         }
 
-        public int GetGamesInCharge()
+        public int GetGames()
         {
             return FilteredMatchData.Count;
         }
 
-        public int GetWins()
+        
+
+        public decimal GetCatchesPerMatch()
         {
-            return FilteredMatchData.Where(a => a.Winner!=null && a.Winner.ID == a.Us.ID).Count();
+            List<BattingCardLine> WicketsData = new List<BattingCardLine>();
+            foreach (Match m in FilteredMatchData)
+            {
+                WicketsData.AddRange(m.GetOurBattingScoreCard().ScorecardData);
+                WicketsData.AddRange(m.GetTheirBattingScoreCard().ScorecardData);
+            }
+            return Math.Round(WicketsData.Where(a => a.Dismissal == ModesOfDismissal.Caught && a.Fielder.ID == this.ID).Count() / (decimal)GetGames(),2);
         }
 
-        public int GetLosses()
+        public decimal GetStumpingsPerMatch()
         {
-            return FilteredMatchData.Where(a => a.Loser != null && a.Loser.ID == a.Us.ID).Count();
+            List<BattingCardLine> WicketsData = new List<BattingCardLine>();
+            foreach (Match m in FilteredMatchData)
+            {
+                WicketsData.AddRange(m.GetOurBattingScoreCard().ScorecardData);
+                WicketsData.AddRange(m.GetTheirBattingScoreCard().ScorecardData);
+            }
+            return Math.Round(WicketsData.Where(a => a.Dismissal == ModesOfDismissal.Stumped && a.Fielder.ID == this.ID).Count() / (decimal)GetGames(),2);
         }
 
-        public decimal GetPercentageGamesWon()
+        public decimal GetAverageByesPerMatch()
         {
-            try
-            {
-                return Math.Round((decimal)GetWins() / (decimal)GetGamesInCharge() * 100, 2);
-            }
-            catch (DivideByZeroException e)
-            {
-                return 0;
-            }
+            return Math.Round((decimal)FilteredMatchData.Select(a => new Extras(a.ID, ThemOrUs.Us).Byes).Sum() / GetGames(), 2);
+    
         }
 
-        public decimal GetPercentageTossWon()
-        {
-            try
-            {
-                return Math.Round((decimal)FilteredMatchData.Where(a => a.TossWinner != null && a.TossWinner.ID == a.Us.ID).Count() / (decimal)GetGamesInCharge() * 100, 2);
-            }
-            catch (DivideByZeroException e)
-            {
-                return 0;
-            }
-        }
-
-        public decimal GetPercentageChooseToBat()
-        {
-            try
-            {
-                return Math.Round((decimal)FilteredMatchData.Where(a => a.TossWinner != null && a.TossWinner.ID == a.Us.ID).Where(a => a.TossWinnerBatted).Count() / (decimal)FilteredMatchData.Where(a => a.TossWinner != null && a.TossWinner.ID == a.Us.ID).Count() * 100, 2);
-            }
-            catch (DivideByZeroException e)
-            {
-                return 0;
-            }
-        }
-
-        public decimal GetBattingAverageAsCaptain()
+        public decimal GetBattingAverageAsKeeper()
         {
             try
             {
@@ -137,7 +122,7 @@ namespace CricketClubMiddle.Stats
             }
         }
 
-        public decimal GetBattingAverageNotAsCaptain()
+        public decimal GetBattingAverageNotAsKeeper()
         {
             try
             {

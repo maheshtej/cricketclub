@@ -547,6 +547,48 @@ namespace CricketClubDAL
                 match.OppositionID = (int)dr["oppo_id"];
                 match.Date = DateTime.Parse(dr["match_date"].ToString());
                 match.VenueID = (int)dr["venue_id"];
+                try
+                {
+                    match.Overs = (int)dr["match_overs"];
+                }
+                catch
+                {
+                    //
+                }
+                try
+                {
+                    match.TheyDeclared = Convert.ToBoolean((int)dr["their_innings_was_declared"]);
+                }
+                catch
+                {
+                    match.TheyDeclared = false;
+                }
+                try
+                {
+                    match.WeDeclared = Convert.ToBoolean((int)dr["our_innings_was_declared"]);
+                }
+                catch
+                {
+                    match.WeDeclared = false;
+                }
+                try
+                {
+                    match.OurInningsLength = (double.Parse(dr["our_innings_length"].ToString()));
+                }
+                catch
+                {
+                    match.OurInningsLength = 0.0;
+                }
+                try
+                {
+                    match.TheirInningsLength = (double.Parse(dr["their_innings_length"].ToString()));
+                }
+                catch
+                {
+                    match.TheirInningsLength = 0.0;
+                }
+
+
                 match.Abandoned = Convert.ToBoolean((int)dr["abandoned"]);
                 try
                 {
@@ -563,6 +605,30 @@ namespace CricketClubDAL
                 catch
                 {
                     match.WonToss = false;
+                }
+                try
+                {
+                    match.WasDeclarationGame = Convert.ToBoolean((int)dr["was_declaration"]);
+                }
+                catch
+                {
+                    match.WasDeclarationGame = false;
+                }
+                try
+                {
+                    match.CaptainID = ((int)dr["captain_id"]);
+                }
+                catch
+                {
+                    match.CaptainID = 0;
+                }
+                try
+                {
+                    match.WicketKeeperID = ((int)dr["wicketkeeper_id"]);
+                }
+                catch
+                {
+                    match.WicketKeeperID = 0;
                 }
                 matches.Add(match);
             }
