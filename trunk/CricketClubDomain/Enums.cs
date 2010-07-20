@@ -46,4 +46,9 @@ namespace CricketClubDomain
     {
         Confirmed, Unconfirmed, Deleted
     };
+
+    public enum PlayingRole
+    {
+        Batsman, Bowler, Opening_Batsman, Wicket_Keeper_Batsman, All_Rounder 
+    };
 }
