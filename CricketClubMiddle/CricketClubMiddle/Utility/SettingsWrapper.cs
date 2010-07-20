@@ -47,7 +47,13 @@ namespace CricketClubMiddle.Utility
         private static string GetSetting(string settingName)
         {
             DAO myDao = new DAO();
-            return myDao.GetSetting(settingName);
+            string returnValue = myDao.GetSetting(settingName);
+            if (returnValue == null)
+            {
+                return "";
+            } else {
+                return returnValue;
+            }
         }
 
         public static List<Setting> GetAll()

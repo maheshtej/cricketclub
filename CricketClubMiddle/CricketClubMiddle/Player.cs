@@ -8,6 +8,9 @@ using CricketClubDAL;
 using CricketClubDomain;
 using CricketClubMiddle.Interactive;
 using CricketClubMiddle;
+using CricketClubMiddle.Utility;
+using System.IO;
+using System.Web;
 
 namespace CricketClubMiddle
 {
@@ -220,6 +223,27 @@ namespace CricketClubMiddle
             set { PlayerData.BattingStyle = value; }
         }
 
+        public PlayingRole PlayingRole
+        {
+            get;set;
+        }
+
+        public int Caps
+        {
+            get
+            {
+                return GetMatchesPlayed();
+            }
+        }
+
+        public DateTime Debut
+        {
+            get
+            {
+                return _battingStatsData.Select(a => a.MatchDate).OrderBy(a => a).FirstOrDefault();
+            }
+        }
+
         public string Education
         {
             get { return PlayerData.Education; }
@@ -241,6 +265,39 @@ namespace CricketClubMiddle
             set
             {
                 PlayerData.IsActive = value;
+            }
+        }
+
+        public string Bio
+        {
+            get
+            {
+                string filename = this.FirstName + "_" + this.Surname + "_BIO.html";
+                string path = SettingsWrapper.GetSettingString("BioFolder", "/Players/bios/") + filename;
+                path = HttpContext.Current.Server.MapPath(path);
+                if (File.Exists(path))
+                {
+                    StreamReader stream = new StreamReader(path);
+                    string temp = stream.ReadToEnd();
+                    stream.Close();
+                    return temp;
+                }
+                else
+                {
+                    return "No player bio has been created.";
+                }
+            }
+            set
+            {
+                string filename = this.FirstName+"_"+this.Surname+"_BIO.html";
+                string path = SettingsWrapper.GetSettingString("BioFolder", "/Players/bios/") + filename;
+                path = HttpContext.Current.Server.MapPath(path);
+                if (File.Exists(path))
+                {
+                    File.Move(path, path + File.GetLastWriteTime(path).ToString("ddMMyyyyHHmmss"));
+                    File.Delete(path);
+                }
+                File.WriteAllText(path, value);
             }
         }
 
