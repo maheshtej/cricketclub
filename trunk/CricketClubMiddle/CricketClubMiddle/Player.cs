@@ -408,6 +408,47 @@ namespace CricketClubMiddle
             return runsScored;
         }
 
+        public int GetDucks(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
+        {
+            var ducks = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
+                        where a.Score == 0
+                        where   (
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.DidNotBat &&
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.NotOut &&
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.Retired
+                                )
+                        select a).Count();
+            return ducks;
+        }
+
+        public int GetDucks(int MatchID)
+        {
+            var tons = (from a in _battingStatsData
+                        where a.MatchID == MatchID
+                        where a.Score == 0
+                        where (
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.DidNotBat &&
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.NotOut &&
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.Retired
+                                )
+                        select a).Count();
+            return tons;
+        }
+
+        public int GetDucks()
+        {
+            var tons = (from a in _battingStatsData
+                        where a.Score == 0
+                        where (
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.DidNotBat &&
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.NotOut &&
+                                    (ModesOfDismissal)a.ModeOfDismissal != ModesOfDismissal.Retired
+                                )
+                        select a).Count();
+            return tons;
+        }
+
+
         public int Get100sScored(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
             var tons = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
@@ -569,16 +610,30 @@ namespace CricketClubMiddle
 
         public int GetHighScore(DateTime startDate, DateTime endDate, List<MatchType> matchType, Venue venue)
         {
-            var highScore = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
-                             select a.Score).Max();
-            return highScore;
+            try
+            {
+                var highScore = (from a in FilterData(_battingStatsData, startDate, endDate, matchType, venue)
+                                 select a.Score).Max();
+                return highScore;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public int GetHighScore()
         {
-            var highScore = (from a in _battingStatsData
-                             select a.Score).Max();
-            return highScore;
+            try
+            {
+                var highScore = (from a in _battingStatsData
+                                 select a.Score).Max();
+                return highScore;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public bool GetHighScoreWasNotOut()
