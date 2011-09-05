@@ -1192,6 +1192,39 @@ namespace CricketClubMiddle
             }
         }
 
+        public IEnumerable<KeyValuePair<Match,int>> GetAllScores()
+        {
+            return _battingStatsData.Where(a=>a.ModeOfDismissal != (int) ModesOfDismissal.DidNotBat).Select(a => new KeyValuePair<Match, int>(new Match(a.MatchID), a.Score)).OrderBy(a=>a.Key.MatchDate);
+        }
+
+        public bool WasNotOutIn(Match match)
+        {
+            int modeOfDismissal = _battingStatsData.Where(a => a.MatchID == match.ID).FirstOrDefault().ModeOfDismissal;
+            if (modeOfDismissal == ((int)ModesOfDismissal.NotOut) || modeOfDismissal == ((int)ModesOfDismissal.RetiredHurt))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<KeyValuePair<Match, BattingCardLineData>> GetBattingStatsByMatch()
+        {
+            return _battingStatsData.Select(a => new KeyValuePair<Match,BattingCardLineData>(new Match(a.MatchID), a)).OrderBy(a=>a.Key.MatchDate);
+        }
+
+        public IEnumerable<KeyValuePair<Match, BowlingStatsEntryData>> GetBowlingStatsByMatch()
+        {
+            return _bowlingStatsData.Select(a => new KeyValuePair<Match,BowlingStatsEntryData>(new Match(a.MatchID), a));
+        }
+
+        public IEnumerable<KeyValuePair<Match, BattingCardLineData>> GetDismissedBatsmenData()
+        {
+            //TODO
+            return null;
+        }
     }
 }
 
