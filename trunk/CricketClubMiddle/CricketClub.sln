@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CricketClubFantasyFives", "
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TheVillageCC", "..\..\..\WebSites\TheVillageCC\", "{78D91CE0-4EEC-441F-B739-AFA130B0F75D}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		ProjectReferences = "{CD12D113-CEEC-4D3B-B258-7B647D8F83E9}|CricketClubMiddle.dll;{1CC6DF73-AC0E-43C9-8B78-7F8023E3AD40}|CricketClubDAL.dll;{44A25B27-75C4-4F75-B6C1-DF3203229E59}|CricketClubDomain.dll;{109FD55B-E2E7-4014-A932-4DF5DEB23C71}|CricketClubAccounts.dll;{60CBD334-7816-432D-ADBD-EB00933F12E5}|jqPlot.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/TheVillageCC"
 		Debug.AspNetCompiler.PhysicalPath = "..\..\..\WebSites\TheVillageCC\"
@@ -53,6 +53,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TheVillageCC", "..\..\..\We
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jqPlot", "..\..\..\..\Visual Studio 2010\Projects\jqPlotforcsharp\jqPlot\jqPlot.csproj", "{60CBD334-7816-432D-ADBD-EB00933F12E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataVisualiser", "..\DataVisualiser\DataVisualiser.csproj", "{CC97D0E6-6786-46BA-A02D-43AC732F943B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,7 @@ Global
 		{78D91CE0-4EEC-441F-B739-AFA130B0F75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78D91CE0-4EEC-441F-B739-AFA130B0F75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78D91CE0-4EEC-441F-B739-AFA130B0F75D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{78D91CE0-4EEC-441F-B739-AFA130B0F75D}.Debug|x86.Build.0 = Debug|Any CPU
 		{78D91CE0-4EEC-441F-B739-AFA130B0F75D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{78D91CE0-4EEC-441F-B739-AFA130B0F75D}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{78D91CE0-4EEC-441F-B739-AFA130B0F75D}.Release|x86.ActiveCfg = Debug|Any CPU
@@ -120,6 +123,12 @@ Global
 		{60CBD334-7816-432D-ADBD-EB00933F12E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60CBD334-7816-432D-ADBD-EB00933F12E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{60CBD334-7816-432D-ADBD-EB00933F12E5}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC97D0E6-6786-46BA-A02D-43AC732F943B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC97D0E6-6786-46BA-A02D-43AC732F943B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC97D0E6-6786-46BA-A02D-43AC732F943B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC97D0E6-6786-46BA-A02D-43AC732F943B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC97D0E6-6786-46BA-A02D-43AC732F943B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC97D0E6-6786-46BA-A02D-43AC732F943B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -160,10 +160,10 @@ namespace CricketClubDAL
                 scData.Sixes = (int)row["6s"];
                 scData.ModeOfDismissal = (int)row["dismissal_id"];
                 scData.PlayerID = (int)row["player_id"];
-                scData.MatchID = (int)row["a.match_id"];
+                scData.MatchID = (int)row["match_id"];
                 scData.Score = (int)row["score"];
                 scData.MatchTypeID = (int)row["comp_id"];
-                scData.MatchDate = (DateTime)row["match_date"];
+                scData.MatchDate = DateTimeFromRow(row["match_date"]);
                 scData.VenueID = (int)row["venue_id"];
 
                 data.Add(scData);
@@ -189,10 +189,10 @@ namespace CricketClubDAL
                 scData.FielderID = (int)row["fielder_id"];
                 scData.ModeOfDismissal = (int)row["dismissal_id"];
                 scData.PlayerName = row["player_name"].ToString();
-                scData.MatchID = (int)row["a.match_id"];
+                scData.MatchID = (int)row["match_id"];
                 scData.Score = (int)row["score"];
                 scData.MatchTypeID = (int)row["comp_id"];
-                scData.MatchDate = (DateTime)row["match_date"];
+                scData.MatchDate = DateTimeFromRow(row["match_date"]);
                 scData.VenueID = (int)row["venue_id"];
                 data.Add(scData);
 
@@ -218,9 +218,9 @@ namespace CricketClubDAL
                 scData.Runs = (int)row["runs"];
                 scData.Wickets = (int)row["wickets"];
                 scData.PlayerID = (int)row["player_id"];
-                scData.MatchID = (int)row["a.match_id"];
+                scData.MatchID = (int)row["match_id"];
                 scData.MatchTypeID = (int)row["comp_id"];
-                scData.MatchDate = (DateTime)row["match_date"];
+                scData.MatchDate = DateTimeFromRow(row["match_date"]);
                 scData.VenueID = (int)row["venue_id"];
                 
 
@@ -507,7 +507,7 @@ namespace CricketClubDAL
 
         public int GetNextMatch(DateTime date)
         {
-            string sql = "select * from matches where match_date >= #" + date.ToLongDateString() + "# order by match_date asc";
+            string sql = "select * from matches where match_date >= '" + date.ToLongDateString() + "' order by match_date asc";
             DataRow dr = scorebook.ExecuteSQLAndReturnFirstRow(sql);
             try
             {
@@ -521,7 +521,7 @@ namespace CricketClubDAL
 
         public int GetPreviousMatch(DateTime date)
         {
-            string sql = "select * from matches where match_date <= #" + date.ToUniversalTime().ToShortDateString() + "# order by match_date desc";
+            string sql = "select * from matches where match_date <= '" + date.ToUniversalTime().ToShortDateString() + "' order by match_date desc";
             DataRow dr = scorebook.ExecuteSQLAndReturnFirstRow(sql);
             try
             {
@@ -932,8 +932,8 @@ namespace CricketClubDAL
                 + NewsID + ", '" 
                 + SafeForSQL(data.Headline) + "', '" 
                 + SafeForSQL(data.ShortHeadline) + "', '" 
-                + SafeForSQL(data.Teaser) + "', #" 
-                + data.Date.ToString("dd MMMM yyyy HH:mm:ss") + "#";
+                + SafeForSQL(data.Teaser) + "', '" 
+                + data.Date.ToString("dd MMMM yyyy HH:mm:ss") + "'";
 
             int temp = scorebook.ExecuteInsertOrUpdate(sql);
 
@@ -957,6 +957,19 @@ namespace CricketClubDAL
             
         }
 
+        private DateTime DateTimeFromRow(object rowValue)
+        {
+            DateTime parsed;
+            if (DateTime.TryParse(rowValue.ToString(), out parsed))
+            {
+                return parsed;
+            }
+            else
+            {
+                throw new ArgumentException(rowValue + " does not look like a date time.");
+            }
+        }
+
         public List<NewsData> GetTopXStories(int x)
         {
             List<NewsData> data = new List<NewsData>();
@@ -965,7 +978,7 @@ namespace CricketClubDAL
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 NewsData item = new NewsData();
-                item.Date = (DateTime)row["item_date"];
+                item.Date = DateTimeFromRow(row["item_date"]);
                 item.Headline = row["headline"].ToString();
                 item.ShortHeadline = row["short_headline"].ToString();
                 item.Teaser = row["teaser"].ToString();
@@ -1013,12 +1026,12 @@ namespace CricketClubDAL
 
             string sql = "insert into Chat(annon_user_name, image_url, post_time) select '"
                 + SafeForSQL(data.Name) + "', '"
-                + SafeForSQL(data.ImageUrl) + "', #"
-                + data.Date.ToString("U") + "#";
+                + SafeForSQL(data.ImageUrl) + "', '"
+                + data.Date.ToString("U") + "'";
 
             int temp = scorebook.ExecuteInsertOrUpdate(sql);
 
-            sql = "select max(ID) as chat_id from chat where annon_user_name = '"+ SafeForSQL(data.Name) + "' and post_time=#"+data.Date.ToString("U")+"#";
+            sql = "select max(ID) as chat_id from chat where annon_user_name = '"+ SafeForSQL(data.Name) + "' and post_time='"+data.Date.ToString("U")+"'";
             int ChatID;
             try
             {
@@ -1043,13 +1056,13 @@ namespace CricketClubDAL
 
         public List<ChatData> GetChatBetween(DateTime startDate, DateTime endDate)
         {
-            string sql = "select * from chat where post_time between #" + startDate.ToString(CultureInfo.CreateSpecificCulture("en-US")) + "# and #" + endDate.ToString(CultureInfo.CreateSpecificCulture("en-US")) + "#";
+            string sql = "select * from chat where post_time between '" + startDate.ToString(CultureInfo.CreateSpecificCulture("en-US")) + "' and '" + endDate.ToString(CultureInfo.CreateSpecificCulture("en-US")) + "'";
             DataSet ds = scorebook.ExecuteSQLAndReturnAllRows(sql);
             List<ChatData> data = new List<ChatData>();
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 ChatData item = new ChatData();
-                item.Date = (DateTime)row["post_time"];
+                item.Date = DateTimeFromRow(row["post_time"]);
                 item.Name = row["annon_user_name"].ToString();
                 item.ImageUrl = row["image_url"].ToString();
                 item.ID = int.Parse(row["ID"].ToString());
@@ -1077,7 +1090,7 @@ namespace CricketClubDAL
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 ChatData item = new ChatData();
-                item.Date = (DateTime)row["post_time"];
+                item.Date = DateTimeFromRow(row["post_time"]);
                 item.Name = row["annon_user_name"].ToString();
                 item.ImageUrl = row["image_url"].ToString();
                 item.ID = int.Parse(row["ID"].ToString());
@@ -1312,7 +1325,7 @@ namespace CricketClubDAL
                 //
             }
             int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into [Match_Photos](imageID, ImageNAme, ImageTitle, Match_ID, [author], uploadDate) select " + NewPhotoID +
-                ", '" + photo.FileName + "', '" + photo.Title + "', " + photo.MatchID + "," + photo.AuthorID + ", #" + photo.UploadDate.ToString() + "#");
+                ", '" + photo.FileName + "', '" + photo.Title + "', " + photo.MatchID + "," + photo.AuthorID + ", '" + photo.UploadDate.ToString() + "'");
             if (rowsAffected == 1)
             {
                 return NewPhotoID;
@@ -1368,12 +1381,12 @@ namespace CricketClubDAL
 
             string sql = "insert into Match_Image_Comments(ImageID, UserID, CommentTime) select "
                 + data.PhotoID + ", "
-                + data.AuthorID + ", #"
-                + data.CommentTime.ToString("U") + "#";
+                + data.AuthorID + ", '"
+                + data.CommentTime.ToString("U") + "'";
 
             int temp = scorebook.ExecuteInsertOrUpdate(sql);
 
-            sql = "select max(CommentID) as comment_id from Match_Image_Comments where UserID = " + data.AuthorID + " and CommentTime=#" + data.CommentTime.ToString("U") + "#";
+            sql = "select max(CommentID) as comment_id from Match_Image_Comments where UserID = " + data.AuthorID + " and CommentTime='" + data.CommentTime.ToString("U") + "'";
             int ChatID;
             try
             {
@@ -1447,7 +1460,7 @@ namespace CricketClubDAL
 
         public void LogMessage(string message, string stack, string level, DateTime when)
         {
-            string sql = "insert into log(Message, Stack, Severity, MessageTime) select '"+message+"','"+stack+"','"+level+"',#"+when.ToString("U")+"#";
+            string sql = "insert into log(Message, Stack, Severity, MessageTime) select '"+message+"','"+stack+"','"+level+"','"+when.ToString("U")+"'";
             scorebook.ExecuteInsertOrUpdate(sql);
         }
         
