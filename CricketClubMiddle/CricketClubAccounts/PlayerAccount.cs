@@ -40,7 +40,7 @@ namespace CricketClubAccounts
                 }
             }
 
-            return balance;
+            return Math.Round(balance,2);
         }
 
         public int PlayerID

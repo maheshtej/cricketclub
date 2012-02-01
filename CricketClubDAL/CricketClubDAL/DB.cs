@@ -22,10 +22,14 @@ namespace CricketClubDAL
         
         private static string GetScorebookConnectionString()
         {
-            
-            ConnectionStringSettings cnxStr = ConfigurationManager.ConnectionStrings["ScorebookDB"];
+            string key = "ProdDB";
+            if (Environment.MachineName.Contains("STdUDY-PC"))
+            {
+                key = "LocalDB";
+            }
+            ConnectionStringSettings cnxStr = ConfigurationManager.ConnectionStrings[key];
             if (cnxStr == null)
-                throw new ConfigurationErrorsException("ConnectionString 'ScorebookDB' was not found in the configuration file.");
+                throw new ConfigurationErrorsException("ConnectionString '"+key+"' was not found in the configuration file.");
             return cnxStr.ConnectionString;
         }
 
@@ -51,9 +55,9 @@ namespace CricketClubDAL
                     }
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                return null;
+                throw new Exception("Error executing: " + sql, exception);
             }
         }
 
@@ -71,9 +75,9 @@ namespace CricketClubDAL
                     }
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                return null;
+                throw new Exception("Error executing: " + sql, exception);
             }
         }
 
@@ -92,9 +96,9 @@ namespace CricketClubDAL
                     }
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                return -1;
+                throw new Exception("Error executing: " + sql, exception);
             }
         }
 
@@ -114,9 +118,9 @@ namespace CricketClubDAL
                 }
                 
             }
-            catch
+            catch (Exception exception)
             {
-                return null;
+                throw new Exception("Error executing: " + sql, exception);
             }
         }
 
