@@ -521,7 +521,7 @@ namespace CricketClubDAL
 
         public int GetPreviousMatch(DateTime date)
         {
-            string sql = "select * from matches where match_date <= '" + date.ToUniversalTime().ToShortDateString() + "' order by match_date desc";
+            string sql = "select * from matches where match_date <= '" + date.ToUniversalTime().ToLongDateString() + "' order by match_date desc";
             DataRow dr = scorebook.ExecuteSQLAndReturnFirstRow(sql);
             try
             {
