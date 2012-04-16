@@ -27,6 +27,7 @@ namespace CricketClubDAL
             {
                 key = "LocalDB";
             }
+            Console.Out.WriteLine("Connecting to: " + key);
             ConnectionStringSettings cnxStr = ConfigurationManager.ConnectionStrings[key];
             if (cnxStr == null)
                 throw new ConfigurationErrorsException("ConnectionString '"+key+"' was not found in the configuration file.");
