@@ -466,7 +466,7 @@ namespace CricketClubDAL
             int NewMatchID = (int)scorebook.ExecuteSQLAndReturnSingleResult("select max(match_id) from matches") + 1;
             int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into matches(match_id, match_date, oppo_id, comp_id, venue_id, home_away) select " 
                 + NewMatchID +", '" 
-                + matchDate.ToString("U") + "' , "
+                + matchDate.ToLongDateString() + "' , "
                 + opponentID + ", "
                 + matchTypeID + ", "
                 + venueID + ", '"
@@ -485,11 +485,11 @@ namespace CricketClubDAL
         public void UpdateMatch(MatchData Data)
         {
             string sql = "update matches set {0} = {1} where match_id = " + Data.ID;
-            int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "match_date", "'" + Data.Date + "'" }));
+            int rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "match_date", "'" + Data.Date.ToLongDateString() + "'" }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "oppo_id", Data.OppositionID.ToString() }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "comp_id", Data.MatchType.ToString() }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "venue_id", Data.VenueID.ToString() }));
-            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "home_away", Data.HomeOrAway }));
+            rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "home_away", SurroundInSingleQuotes(Data.HomeOrAway) }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "won_toss", (Convert.ToInt16(Data.WonToss)).ToString() }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "batted", (Convert.ToInt16(Data.Batted)).ToString() }));
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "was_declaration", (Convert.ToInt16(Data.WasDeclarationGame)).ToString() }));
@@ -503,6 +503,11 @@ namespace CricketClubDAL
             rowsAffected = scorebook.ExecuteInsertOrUpdate(string.Format(sql, new string[] { "abandoned", (Convert.ToInt16(Data.Abandoned)).ToString() }));
             
 
+        }
+
+        private string SurroundInSingleQuotes(string item)
+        {
+            return "'" + item + "'";
         }
 
         public int GetNextMatch(DateTime date)
