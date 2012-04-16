@@ -23,7 +23,7 @@ namespace CricketClubDAL
         private static string GetScorebookConnectionString()
         {
             string key = "ProdDB";
-            if (Environment.MachineName.Contains("STdUDY-PC"))
+            if (Environment.MachineName.Contains("STUDY-PC") || Environment.MachineName.Contains("LAPTOP"))
             {
                 key = "LocalDB";
             }

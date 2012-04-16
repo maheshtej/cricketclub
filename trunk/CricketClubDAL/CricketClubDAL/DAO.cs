@@ -466,7 +466,7 @@ namespace CricketClubDAL
             int NewMatchID = (int)scorebook.ExecuteSQLAndReturnSingleResult("select max(match_id) from matches") + 1;
             int rowsAffected = scorebook.ExecuteInsertOrUpdate("insert into matches(match_id, match_date, oppo_id, comp_id, venue_id, home_away) select " 
                 + NewMatchID +", '" 
-                + matchDate.ToString() + "' , "
+                + matchDate.ToString("U") + "' , "
                 + opponentID + ", "
                 + matchTypeID + ", "
                 + venueID + ", '"
@@ -1458,9 +1458,9 @@ namespace CricketClubDAL
 
         #region Logging
 
-        public void LogMessage(string message, string stack, string level, DateTime when)
+        public void LogMessage(string message, string stack, string level, DateTime when, string innerExceptionText)
         {
-            string sql = "insert into log(Message, Stack, Severity, MessageTime) select '"+message+"','"+stack+"','"+level+"','"+when.ToString("U")+"'";
+            string sql = "insert into log(Message, Stack, Severity, MessageTime, InnerException) select '"+SafeForSQL(message)+"','"+SafeForSQL(stack)+"','"+level+"','"+when.ToString("U")+"', '"+SafeForSQL(innerExceptionText)+"'";
             scorebook.ExecuteInsertOrUpdate(sql);
         }
         
