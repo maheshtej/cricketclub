@@ -10,25 +10,25 @@ namespace CricketClubMiddle.Stats
     public class BattingCard
     {
         /// <summary>
-        /// Get a scorecard for a game
+        /// Get a batting scorecard for a game
         /// </summary>
-        /// <param name="match_id">The id of the match to fetch the scorecard for</param>
-        /// <param name="BatOrBowl">Do you want the website team's batting or bowling innings?</param>
-        public BattingCard(int MatchID, ThemOrUs us)
+        /// <param name="matchId">The id of the match to fetch the scorecard for</param>
+        /// <param name="themOrUs">Do you want the website team's batting or the opposition's</param>
+        public BattingCard(int matchId, ThemOrUs themOrUs)
         {
-            DAO myDAO = new DAO();
-            ScorecardData = (from a in myDAO.GetBattingCard(MatchID, us).Where(a=>a.PlayerID != -1).Where(a=>a.PlayerName != "(Frank) Extras")
-                                select new BattingCardLine(a)).ToList();
-            this.MatchID = MatchID;
+            DAO dao = new DAO();
+            ScorecardData = (dao.GetBattingCard(matchId, themOrUs).Where(a => a.PlayerID != -1).Where(
+                a => a.PlayerName != "(Frank) Extras").Select(a => new BattingCardLine(a))).OrderBy(b=>b.BattingAt).ToList();
+            MatchId = matchId;
             try
             {
-                if (ThemOrUs.Us == us)
+                if (ThemOrUs.Us == themOrUs)
                 {
-                    this.Extras = myDAO.GetBattingCard(MatchID, us).Where(a => a.PlayerID == -1).FirstOrDefault().Score;
+                    Extras = dao.GetBattingCard(matchId, themOrUs).Where(a => a.PlayerID == -1).FirstOrDefault().Score;
                 }
                 else
                 {
-                    this.Extras = myDAO.GetBattingCard(MatchID, us).Where(a => a.ModeOfDismissal == -1).FirstOrDefault().Score;
+                    this.Extras = dao.GetBattingCard(matchId, themOrUs).Where(a => a.ModeOfDismissal == -1).FirstOrDefault().Score;
                 }
             }
             catch
@@ -44,7 +44,7 @@ namespace CricketClubMiddle.Stats
             return null;
         }
 
-        public int MatchID
+        public int MatchId
         {
             get;
             private set;
@@ -72,30 +72,32 @@ namespace CricketClubMiddle.Stats
             }
         }
 
-        public void Save(BattingOrBowling BatOrBowl)
+        public void Save(BattingOrBowling batOrBowl)
         {
-            DAO myDao = new DAO();
-            List<BattingCardLineData> data = new List<BattingCardLineData>();
-            foreach (BattingCardLine line in this.ScorecardData)
+            DAO dao = new DAO();
+            var data = new List<BattingCardLineData>();
+            foreach (var line in ScorecardData)
             {
-                BattingCardLineData item = new BattingCardLineData();
-                item.Fours = line.Fours;
-                item.BattingAt = line.BattingAt;
-                item.BowlerName = line.Bowler.Name;
-                item.BowlerID = line.Bowler.ID;
-                item.FielderID = line.Fielder.ID;
-                item.FielderName = line.Fielder.Name;
-                item.MatchID = this.MatchID;
-                item.MatchDate = new Match(MatchID).MatchDate;
-                item.ModeOfDismissal = (int)line.Dismissal;
-                item.PlayerID = line.Batsman.ID;
-                item.PlayerName = line.PlayerName;
-                item.Runs = line.Score;
-                item.Score = line.Score;
-                item.Sixes = line.Sixes;
+                var item = new BattingCardLineData
+                                               {
+                                                   Fours = line.Fours,
+                                                   BattingAt = line.BattingAt,
+                                                   BowlerName = line.Bowler.Name,
+                                                   BowlerID = line.Bowler.ID,
+                                                   FielderID = line.Fielder.ID,
+                                                   FielderName = line.Fielder.Name,
+                                                   MatchID = MatchId,
+                                                   MatchDate = new Match(MatchId).MatchDate,
+                                                   ModeOfDismissal = (int) line.Dismissal,
+                                                   PlayerID = line.Batsman.ID,
+                                                   PlayerName = line.PlayerName,
+                                                   Runs = line.Score,
+                                                   Score = line.Score,
+                                                   Sixes = line.Sixes
+                                               };
                 data.Add(item);
             }
-            myDao.UpdateScoreCard(data, this.Extras, BatOrBowl);
+            dao.UpdateScoreCard(data, Extras, batOrBowl);
         }
 
 

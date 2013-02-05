@@ -707,7 +707,7 @@ namespace CricketClubDAL
                     }
                     else
                     {
-                        sql = "insert into batting_scorecards(player_id, dismissal_id, score, [batting at], match_id, bowler_name, fielder_name, 4s, 6s) select " + _row.PlayerID + ", " + (int)_row.ModeOfDismissal + ", " + _row.Score + ", " + (_row.BattingAt-1).ToString() + ", " + _row.MatchID + " , '" + _row.BowlerName + "', '" + _row.FielderName + "'," + _row.Fours + ", " + _row.Sixes;
+                        sql = "insert into batting_scorecards(player_id, dismissal_id, score, [batting at], match_id, bowler_name, fielder_name, [4s], [6s]) select " + _row.PlayerID + ", " + (int)_row.ModeOfDismissal + ", " + _row.Score + ", " + (_row.BattingAt-1).ToString() + ", " + _row.MatchID + " , '" + _row.BowlerName + "', '" + _row.FielderName + "'," + _row.Fours + ", " + _row.Sixes;
                     }
 
                     int temp = scorebook.ExecuteInsertOrUpdate(sql);
@@ -716,7 +716,7 @@ namespace CricketClubDAL
                 //Extras
                 if (BattingOrBowling == BattingOrBowling.Batting)
                 {
-                    sql = "insert into batting_scorecards(player_id, dismissal_id, score, [batting at], match_id, bowler_name, 4s, 6s) select -1, -1, " + TotalExtras + ", 11, " + BattingData[0].MatchID + " , '', 0, 0";
+                    sql = "insert into batting_scorecards(player_id, dismissal_id, score, [batting at], match_id, bowler_name, [4s], [6s]) select -1, -1, " + TotalExtras + ", 11, " + BattingData[0].MatchID + " , '', 0, 0";
                 }
                 else
                 {
