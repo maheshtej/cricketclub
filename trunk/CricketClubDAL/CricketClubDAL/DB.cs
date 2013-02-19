@@ -1,36 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
 
-
 namespace CricketClubDAL
 {
-    public class DB
+    public class Db
     {
-        internal static OleDbConnection OpenConnection()
+        private static OleDbConnection OpenConnection()
         {
-            OleDbConnection conn = new OleDbConnection(GetScorebookConnectionString());
+            var conn = new OleDbConnection(GetScorebookConnectionString());
             conn.Open();
             return conn;
         }
 
-        
+
         private static string GetScorebookConnectionString()
         {
             string key = "ProdDB";
-            if (Environment.MachineName.Contains("STUDY-PC") || Environment.MachineName.Contains("LAPTOP"))
+            if (Environment.MachineName.Contains("BIG-PC") || Environment.MachineName.Contains("LAPTOP"))
             {
                 key = "LocalDB";
             }
             Console.Out.WriteLine("Connecting to: " + key);
             ConnectionStringSettings cnxStr = ConfigurationManager.ConnectionStrings[key];
             if (cnxStr == null)
-                throw new ConfigurationErrorsException("ConnectionString '"+key+"' was not found in the configuration file.");
+                throw new ConfigurationErrorsException("ConnectionString '" + key +
+                                                       "' was not found in the configuration file.");
             return cnxStr.ConnectionString;
         }
 
@@ -38,22 +34,16 @@ namespace CricketClubDAL
         {
             try
             {
-                using (var Conn = OpenConnection())
+                using (OleDbConnection connection = OpenConnection())
                 {
-                    using (var Command = new OleDbCommand(sql, Conn))
+                    var data = new DataSet();
+                    var adaptor = new OleDbDataAdapter(sql, connection);
+                    adaptor.Fill(data);
+                    if (data.Tables[0] != null && data.Tables[0].Rows.Count > 0)
                     {
-                        DataSet data = new DataSet();
-                        OleDbDataAdapter adaptor = new OleDbDataAdapter(sql, Conn);
-                        adaptor.Fill(data);
-                        if (data.Tables[0] != null && data.Tables[0].Rows.Count > 0)
-                        {
-                            return data.Tables[0].Rows[0];
-                        }
-                        else
-                        {
-                            return null;
-                        }
+                        return data.Tables[0].Rows[0];
                     }
+                    return null;
                 }
             }
             catch (Exception exception)
@@ -66,13 +56,11 @@ namespace CricketClubDAL
         {
             try
             {
-                using (var Conn = OpenConnection())
+                using (OleDbConnection conn = OpenConnection())
                 {
-                    using (var Command = new OleDbCommand(sql, Conn))
+                    using (var command = new OleDbCommand(sql, conn))
                     {
-
-                        return Command.ExecuteScalar();
-
+                        return command.ExecuteScalar();
                     }
                 }
             }
@@ -86,14 +74,11 @@ namespace CricketClubDAL
         {
             try
             {
-                using (var Conn = OpenConnection())
+                using (OleDbConnection conn = OpenConnection())
                 {
-                    using (var Command = new OleDbCommand(sql, Conn))
+                    using (var command = new OleDbCommand(sql, conn))
                     {
-                           
-                           return Command.ExecuteNonQuery();
-
-
+                        return command.ExecuteNonQuery();
                     }
                 }
             }
@@ -103,27 +88,22 @@ namespace CricketClubDAL
             }
         }
 
-        public DataSet ExecuteSQLAndReturnAllRows(string sql)
+        public DataSet ExecuteSqlAndReturnAllRows(string sql)
         {
             try
             {
-                using (var Conn = OpenConnection())
+                using (OleDbConnection conn = OpenConnection())
                 {
-                    using (var Command = new OleDbCommand(sql, Conn))
-                    {
-                        DataSet data = new DataSet();
-                        OleDbDataAdapter adaptor = new OleDbDataAdapter(sql, Conn);
-                        adaptor.Fill(data);
-                        return data;        
-                    }
+                    var data = new DataSet();
+                    var adaptor = new OleDbDataAdapter(sql, conn);
+                    adaptor.Fill(data);
+                    return data;
                 }
-                
             }
             catch (Exception exception)
             {
                 throw new Exception("Error executing: " + sql, exception);
             }
         }
-
     }
 }

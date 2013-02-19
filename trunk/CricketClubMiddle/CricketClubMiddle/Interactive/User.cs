@@ -82,20 +82,20 @@ namespace CricketClubMiddle.Interactive
 
         public static User CreateNew(string UserName, string Password, string emailaddress, string displayname) 
         {
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             int id = myDAO.CreateNewUser(UserName, emailaddress, Password, displayname);
             return new User(id);
         }
 
         public static List<User> GetAll()
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             return (from a in myDao.GetAllUsers() select new User(a)).ToList(); 
         }
 
         public void Save()
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             myDao.UpdateUser(_data);
         }
 

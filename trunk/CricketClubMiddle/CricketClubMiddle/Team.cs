@@ -11,7 +11,7 @@ namespace CricketClubMiddle
 {
     public class Team
     {
-        private DAO myDAO = new DAO();
+        private Dao myDAO = new Dao();
         private InternalCache teamCache = InternalCache.GetInstance();
         private TeamData _teamData;
 
@@ -35,7 +35,7 @@ namespace CricketClubMiddle
 
         public static Team CreateNewTeam(string TeamName)
         {
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             int newTeamid = myDAO.CreateNewTeam(TeamName);
             return new Team(newTeamid);
         }
@@ -68,7 +68,7 @@ namespace CricketClubMiddle
 
         public static List<Team> GetAll()
         {
-            List<TeamData> data = new DAO().GetAllTeamData();
+            IEnumerable<TeamData> data = new Dao().GetAllTeamData();
             List<Team> teams = new List<Team>();
             foreach (TeamData item in data)
             {

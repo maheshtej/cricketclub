@@ -10,14 +10,14 @@ namespace CricketClubMiddle
     {
         public static IEnumerable<NewsItem> GetLastXStories(int number)
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             return from a in myDao.GetTopXStories(number)
                        select new NewsItem(a);
         }
 
         public static void SubmitNewStory(NewsItem story)
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             myDao.SaveNewsStory(story._data);
         }
     }

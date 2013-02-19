@@ -20,7 +20,7 @@ namespace CricketClubMiddle.Logging
         {
             if (severity <= LoggingLevel)
             {
-                DAO myDao = new DAO();
+                Dao myDao = new Dao();
                 myDao.LogMessage(message, e.Message+Environment.NewLine+e.StackTrace, severity.ToString(), DateTime.Now, e.InnerException.ToString());
             }
         }

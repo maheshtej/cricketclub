@@ -9,7 +9,7 @@ namespace CricketClubMiddle
 {
     public class Match
     {
-        private readonly DAO dao = new DAO();
+        private readonly Dao dao = new Dao();
         private readonly MatchData data;
         private BattingCard ourBatting;
         private BowlingStats ourBowling;
@@ -411,15 +411,15 @@ namespace CricketClubMiddle
         public static Match CreateNewMatch(Team opposition, DateTime matchDay, Venue venue, MatchType type,
                                            HomeOrAway homeAway)
         {
-            var myDao = new DAO();
+            var myDao = new Dao();
             int id = myDao.CreateNewMatch(opposition.ID, matchDay, venue.ID, (int) type,
-                                          homeAway.ToString().Substring(0, 1).ToUpper());
+                                          homeAway);
             return new Match(id);
         }
 
         public static Match GetNextMatch()
         {
-            var myDao = new DAO();
+            var myDao = new Dao();
             int matchID = myDao.GetNextMatch(DateTime.Today);
             if (matchID >= 0)
             {
@@ -433,7 +433,7 @@ namespace CricketClubMiddle
 
         public static Match GetLastMatch()
         {
-            var myDao = new DAO();
+            var myDao = new Dao();
             int matchID = myDao.GetPreviousMatch(DateTime.Today);
             if (matchID >= 0)
             {
@@ -444,7 +444,7 @@ namespace CricketClubMiddle
 
         public Match GetPreviousMatch()
         {
-            var myDao = new DAO();
+            var myDao = new Dao();
             int matchID = myDao.GetPreviousMatch(MatchDate);
             if (matchID >= 0)
             {
@@ -473,7 +473,7 @@ namespace CricketClubMiddle
 
         private static IList<Match> GetAll()
         {
-            var dao = new DAO();
+            var dao = new Dao();
             List<MatchData> data = dao.GetAllMatches();
             return (from a in data select new Match(a)).ToList();
         }
@@ -483,7 +483,7 @@ namespace CricketClubMiddle
             ClearCache();
             if (data.ID != 0)
             {
-                var dao = new DAO();
+                var dao = new Dao();
                 dao.UpdateMatch(data);
             }
             else

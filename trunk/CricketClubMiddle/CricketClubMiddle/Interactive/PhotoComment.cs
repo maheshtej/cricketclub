@@ -70,7 +70,7 @@ namespace CricketClubMiddle.Interactive
 
         public static List<PhotoComment> GetAll()
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             return (from a in myDao.GetAllPhotoComments() select new PhotoComment(a)).ToList();
         }
 
@@ -81,7 +81,7 @@ namespace CricketClubMiddle.Interactive
 
         private int Save()
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             return myDao.SubmitPhotoComment(_data);
         }
     }

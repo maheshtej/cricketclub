@@ -21,13 +21,13 @@ namespace CricketClubMiddle.Stats
         public Extras(int MatchID, ThemOrUs Who) 
         {
             _who = Who;
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             _data = myDao.GetExtras(MatchID, Who);
         }
 
         public void Save()
         {
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             myDAO.UpdateExtras(_data, _who);
         }
 
