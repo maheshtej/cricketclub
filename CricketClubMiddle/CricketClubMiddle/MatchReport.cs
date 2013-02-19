@@ -14,7 +14,7 @@ namespace CricketClubMiddle
         MatchReportData _data;
         public MatchReport(int MatchID, string ReportsFolder)
         {
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             _data = myDAO.GetMatchReportData(MatchID);
             folder = ReportsFolder;
         }
@@ -65,7 +65,7 @@ namespace CricketClubMiddle
         public void Save()
         {
             
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             myDAO.SaveMatchReport(_data);
         }
 

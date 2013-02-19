@@ -16,7 +16,7 @@ namespace CricketClubMiddle.Utility
         /// <param name="settingValue">The String version of the Value</param>
         public static void Set(string settingName, string settingValue, string description)
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             myDao.SetSetting(settingName, settingValue, description);
         }
 
@@ -46,7 +46,7 @@ namespace CricketClubMiddle.Utility
 
         private static string GetSetting(string settingName)
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             string returnValue = myDao.GetSetting(settingName);
             if (returnValue == null)
             {
@@ -58,7 +58,7 @@ namespace CricketClubMiddle.Utility
 
         public static List<Setting> GetAll()
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             return (from a in myDao.GetAllSettings() select new Setting(a)).OrderBy(a=>a.Name).ToList();
 
         }

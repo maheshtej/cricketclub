@@ -33,7 +33,7 @@ namespace CricketClubMiddle
         public Player(int PlayerID)
         {
             //Get the player specified by this ID
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             PlayerData = myDao.GetPlayerData(PlayerID);
 
         }
@@ -59,14 +59,14 @@ namespace CricketClubMiddle
         public static Player CreateNewPlayer(string Name)
         {
             //Creates a new player.
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             int newPlayerID = myDAO.CreateNewPlayer(Name);
             return new Player(newPlayerID);
         }
 
         public static List<Player> GetAll()
         {
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             List<PlayerData> data = myDAO.GetAllPlayers();
             return (from a in data select new Player(a)).OrderBy(a=>a.FormalName).ToList();
         }
@@ -311,7 +311,7 @@ namespace CricketClubMiddle
         {
             if (PlayerData.ID != 0)
             {
-                DAO myDao = new DAO();
+                Dao myDao = new Dao();
                 myDao.UpdatePlayer(PlayerData);
             }
             else
@@ -351,7 +351,7 @@ namespace CricketClubMiddle
             {
                 if (_battingStatsDataCache == null)
                 {
-                    DAO myDao = new DAO();
+                    Dao myDao = new Dao();
                     _battingStatsDataCache = myDao.GetPlayerBattingStatsData(this.ID);
                 }
                 return _battingStatsDataCache;
@@ -706,7 +706,7 @@ namespace CricketClubMiddle
             {
                 if (_bowlingStatsDataCache == null)
                 {
-                    DAO myDao = new DAO();
+                    Dao myDao = new Dao();
                     _bowlingStatsDataCache = myDao.GetPlayerBowlingStatsData(this.ID);
                 }
                 return _bowlingStatsDataCache;
@@ -1044,7 +1044,7 @@ namespace CricketClubMiddle
             {
                 if (_fieldingStatsDataCache == null)
                 {
-                    DAO myDao = new DAO();
+                    Dao myDao = new Dao();
                     _fieldingStatsDataCache = myDao.GetPlayerFieldingStatsData(this.ID);
                 }
                 return _fieldingStatsDataCache;

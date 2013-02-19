@@ -106,7 +106,7 @@ namespace CricketClubAccounts
 
         internal static AccountEntry Create(PlayerAccount account, double amount, string description, DateTime Date, CreditDebit CreditOrDebit, PaymentType Type, int MatchID, PaymentStatus Status)
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             int newID = myDao.CreateNewAccountEntry(account.PlayerID, description, amount,(int)CreditOrDebit, (int)Type, MatchID, (int)Status, Date);
             ClearCache();
             return new AccountEntry(newID);
@@ -119,7 +119,7 @@ namespace CricketClubAccounts
             if (_accountCache == null)
             {
                 List<AccountEntry> allAccounts = new List<AccountEntry>();
-                DAO myDao = new DAO();
+                Dao myDao = new Dao();
                 List<AccountEntryData> data = myDao.GetAllAccountData();
                 foreach (AccountEntryData row in data)
                 {
@@ -132,7 +132,7 @@ namespace CricketClubAccounts
 
         public void Save()
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             myDao.UpdateAccountEntry(_data);
             ClearCache();
         }

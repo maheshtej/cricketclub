@@ -32,7 +32,7 @@ namespace CricketClubMiddle.Interactive
 
         public static List<MatchPhoto> GetAll()
         {
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             return (from a in myDAO.GetAllPhotos() select new MatchPhoto(a)).ToList();
         }
 
@@ -124,7 +124,7 @@ namespace CricketClubMiddle.Interactive
 
         private int Save()
         {
-            DAO myDao = new DAO();
+            Dao myDao = new Dao();
             return myDao.AddOrUpdatePhoto(_data);
 
         }

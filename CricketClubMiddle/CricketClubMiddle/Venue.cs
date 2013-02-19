@@ -14,7 +14,7 @@ namespace CricketClubMiddle
     {
         private InternalCache venueCache = InternalCache.GetInstance();
         private VenueData _data;
-        private DAO myDAO = new DAO();
+        private Dao myDAO = new Dao();
 
         public Venue(int VenueID)
         {
@@ -31,7 +31,7 @@ namespace CricketClubMiddle
 
         public static Venue CreateNewVenue(string VenueName)
         {
-            DAO myDAO = new DAO();
+            Dao myDAO = new Dao();
             int newVenueid = myDAO.CreateNewVenue(VenueName);
             return new Venue(newVenueid);
         }
@@ -75,7 +75,7 @@ namespace CricketClubMiddle
 
         public static List<Venue> GetAll()
         {
-            List<VenueData> data = new DAO().GetAllVenueData();
+            IEnumerable<VenueData> data = new Dao().GetAllVenueData();
             List<Venue> venues = new List<Venue>();
             foreach (VenueData item in data)
             {
