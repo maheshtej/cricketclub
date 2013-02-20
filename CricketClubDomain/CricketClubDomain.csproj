@@ -95,7 +95,9 @@
     <Compile Include="FoWDataLine.cs" />
     <Compile Include="MatchData.cs" />
     <Compile Include="MatchReportData.cs" />
+    <Compile Include="MatchState.cs" />
     <Compile Include="NewsData.cs" />
+    <Compile Include="Over.cs" />
     <Compile Include="PhotoCommentData.cs" />
     <Compile Include="PhotoData.cs" />
     <Compile Include="PlayerData.cs" />

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
+using System.Linq;
 
 namespace CricketClubDAL
 {
@@ -104,6 +106,51 @@ namespace CricketClubDAL
             {
                 throw new Exception("Error executing: " + sql, exception);
             }
+        }
+
+        public Row QueryOne(string sql)
+        {
+            return new Row(ExecuteSQLAndReturnFirstRow(sql));
+        }
+
+        public IEnumerable<Row> QueryMany(string sql)
+        {
+            return ExecuteSqlAndReturnAllRows(sql).Tables[0].Rows.Cast<DataRow>().Select(row => new Row(row));
+        }
+    }
+
+    public class Row
+    {
+        private readonly DataRow dataRow;
+
+        public Row(DataRow dataRow)
+        {
+            this.dataRow = dataRow;
+        }
+
+        public int GetInt(int index)
+        {
+            return GetInt(index, 0);
+        }
+
+        public int GetInt(string columnName)
+        {
+            return Convert.ToInt32(dataRow[columnName]);
+        }
+
+        public string GetString(string columnName)
+        {
+            return dataRow[columnName].ToString();
+        }
+
+        public int GetInt(int index, int valueIfNull)
+        {
+            object value = dataRow[index];
+            if (value is DBNull)
+            {
+                return valueIfNull;
+            }
+            return Convert.ToInt32(value);
         }
     }
 }
