@@ -624,5 +624,28 @@ namespace CricketClubMiddle
         {
             return new MatchReport(ID, folder);
         }
+
+        public void StartBallByBallCoverage(IEnumerable<int> playerIds)
+        {
+            if (!dao.IsBallByBallCoverageInProgress(ID))
+            {
+                dao.StartBallByBallCoverage(ID, playerIds);    
+            }
+            else
+            {
+                throw new InvalidOperationException("Cannot start coverage for match " + Description + " game is already in progress.");
+            }
+            
+        }
+
+        public string Description
+        {
+            get { return HomeTeam + " vs " + AwayTeam + " (" + MatchDateString + ")"; }
+        }
+
+        public MatchState GetCurrentBallByBallState()
+        {
+            return dao.GetCurrentBallByBallState(ID);
+        }
     }
 }
