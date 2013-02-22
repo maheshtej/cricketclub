@@ -1556,5 +1556,28 @@ namespace CricketClubDAL
             Row row = db.QueryOne("select sum(value) from ballbyball_data where match_id = " + matchId);
             return row.GetInt(0, 0);
         }
+
+        public void UpdateCurrentBallByBallState(MatchState matchState, int matchId)
+        {
+            foreach (var playerState in matchState.Players)
+            {
+                UpdatePlayerState(playerState, matchId);
+            }
+            foreach (var ball in matchState.Over.Balls)
+            {
+                AddBallToMatch(ball, matchId);
+            }
+            
+        }
+
+        private void AddBallToMatch(Ball ball, int matchId)
+        {
+            //
+        }
+
+        private void UpdatePlayerState(PlayerState playerState, int matchId)
+        {
+            //
+        }
     }
 }

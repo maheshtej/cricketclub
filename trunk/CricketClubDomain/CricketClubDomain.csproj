@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountEntryData.cs" />
+    <Compile Include="Ball.cs" />
     <Compile Include="BowlingStatsEntryData.cs" />
     <Compile Include="ChatData.cs" />
     <Compile Include="Enums.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="TeamData.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="VenueData.cs" />
+    <Compile Include="Wicket.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

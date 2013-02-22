@@ -7,5 +7,6 @@ namespace CricketClubDomain
 {
     public class Over
     {
+        public Ball[] Balls;
     }
 }

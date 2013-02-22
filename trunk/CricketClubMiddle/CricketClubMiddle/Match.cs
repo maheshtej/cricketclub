@@ -647,5 +647,10 @@ namespace CricketClubMiddle
         {
             return dao.GetCurrentBallByBallState(ID);
         }
+
+        public void UpdateCurrentBallByBallState(MatchState stateFromClient)
+        {
+            dao.UpdateCurrentBallByBallState(stateFromClient, ID);
+        }
     }
 }
